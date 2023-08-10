@@ -1,0 +1,50 @@
+.match {
+    width: 620px;
+    height: 160px;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    margin-top: 50px;
+    display: flex;
+    flex: 0 0 620px;
+}
+
+.match .teams {
+    flex: 70%;
+    border-right: 1px solid lightgrey;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.match .tools {
+    flex: 30%;
+    padding: 10px 10px;
+}
+
+.match .team-info {
+    margin-top: 15px;
+    display: flex;
+}
+
+.match .home, .match .away {
+    display: flex;
+    justify-content: space-between;
+}
+
+.match .team-name {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.match .box-score {
+    margin-top: 45px;
+    text-align: center;
+}
+
+.match .score {
+    float: right;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+

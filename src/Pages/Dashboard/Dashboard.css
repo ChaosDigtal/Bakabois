@@ -1,0 +1,171 @@
+.dashboard {
+    min-width: 1600px;
+}
+
+.p-tabview-nav-container {
+    padding-top: 25px;
+    background-color: lightgrey;
+}
+
+.p-tabview .p-tabview-nav {
+    background-color: lightgrey!important;
+}
+
+.p-tabview-nav {
+    padding-left: 90px!important;
+}
+
+.p-tabview-panels {
+    background-color: darkgrey!important;
+}
+
+.p-tabview-selected a{
+    background-color: darkgrey!important;
+}
+
+.p-tabview-nav .p-button {
+    background-color: lightgrey!important;
+    border: 0px!important;
+    color: #6c757d!important;
+}
+
+.p-tabview-selected .p-button {
+    color: darkblue!important;
+}
+
+.p-tabview-nav .p-button:focus {
+    box-shadow: none!important;
+}
+
+
+.p-tabview-nav li a {
+    background-color: rgba(0,0,0,0)!important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    box-shadow: none!important;
+}
+
+
+
+.p-tabview-nav li:not(.p-tabview-selected):hover{
+    background-color: rgb(200, 200, 200)!important;
+}
+
+.p-tabview-selected {
+    background-color: darkgrey!important;
+}
+
+.p-tabview-selected a{
+    color: darkblue!important;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+    background-color: black!important;
+}
+
+
+.p-tabview-title {
+    margin-left: 10px;
+}
+
+.p-tabview-nav .p-button {
+    background-color: rgba(0,0,0,0)!important;
+}
+
+.p-tabview-nav .p-splitbutton {
+    margin-top: 5px;
+}
+
+.logo {
+    top: -3px;
+    position: absolute;
+    z-index: 10000;
+}
+
+.p-splitbutton-menubutton {
+    margin-left: -20px!important;
+}
+
+.leaderboard-container {
+    border-radius: 15px;
+    margin-top: 20px;
+    background-color: white;
+    padding-bottom: 20px;
+}
+
+.leaderboard-header {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.leaderboard-menu {
+    position: absolute;
+    margin-top: 25px;
+    margin-left: 450px;
+    display: flex;
+}
+
+.leaderboard-menu .title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.scoreboard-container {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 15px;
+    padding-bottom: 20px;
+    width: 1550px!important;
+}
+
+.scoreboard-header {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.scoreboard-tool {
+    margin-top: 20px;
+    padding-left: 50px;
+    display: flex;
+}
+
+.scoreboard-menu {
+    margin-top: 25px;
+    display: flex;
+}
+
+.scoreboard-menu .title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.matchup-period {
+    margin-left: 30px;
+    margin-top: 25px;
+    display: flex;
+}
+
+.matchup-period .title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 5px;;
+    margin-right: 10px;
+}
+
+#pr_id_1_content_2 {
+    text-align: -webkit-center;
+}

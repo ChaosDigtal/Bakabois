@@ -1,0 +1,31 @@
+.scoreboard {
+    background-color: white;
+}
+
+.header {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.scoreboard .league-name {
+    margin-left: 15px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.match-container {
+    width: 1550px;
+    margin-top: 0px;
+    display: flex;
+    flex: 0 0 1600px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 100px;
+    padding-right: 100px;
+}

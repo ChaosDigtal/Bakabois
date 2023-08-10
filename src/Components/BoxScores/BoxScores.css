@@ -1,0 +1,198 @@
+.boxscores {
+    margin-top: 20px;
+    background-color: darkgrey;
+}
+
+.header-matchups {
+    border-radius: 15px;
+    background-color: white;
+    padding-bottom: 15px;
+}
+
+.head {
+    display: flex;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.league-name {
+    margin-top: 10px;
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.matchups {
+    margin-top: 20px;
+    border-top: 1px solid lightgrey;
+}
+
+.boxscores-match {
+    width: 200px;
+    height: 65px;
+    border-right: 1px solid lightgrey;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.match-area {
+    border-radius: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-right: 10px;
+}
+
+.current {
+    background-color: rgb(199, 252, 199)!important;
+}
+
+.match-area:hover {
+    background-color: rgb(232, 254, 232);
+}
+
+.boxscores-match .team-info {
+    margin-top: 7px;
+    display: flex;
+}
+
+.boxscores-match .away, .boxscores-match .home {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boxscores-match .team-name {
+    margin-left: 10px;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+    white-space: nowrap;
+}
+
+.boxscores-match .score {
+    float: right;
+    font-size: 17px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.p-carousel-indicators {
+    display: none!important;
+}
+
+.boxscores .teams {
+    border-radius: 15px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
+    display: flex;
+}
+
+.boxscores-away {
+    flex: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-right: 2px solid lightgrey;
+}
+
+.away-team {
+    display: flex;
+}
+
+.away-info {
+    margin-left: 20px;
+}
+
+.away-name {
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.away-div {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.away-manager {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.away-logo {
+    padding-top: 30px;
+    padding-left: 40px;
+}
+
+.boxscores .teams .p-avatar {
+    width: 70px!important;
+    height: 70px!important;
+}
+
+.away-score {
+    float: right;
+    margin-top: 35px;
+    margin-right: 30px;
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.boxscores-home {
+    flex: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.home-score {
+    font-size: 35px;
+    font-weight: 500;
+    margin-left: 30px;
+    margin-top: 35px;
+}
+
+.home-team {
+    display: flex;
+}
+
+.home-info {
+    margin-right: 20px;
+}
+
+.home-name {
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.home-div {
+    text-align: right;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+.home-manager {
+    text-align: right;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.home-logo {
+    padding-top: 30px;
+    padding-right: 40px;
+}
+
+.boxscore-container {
+    display: flex;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 30px 20px;
+}
