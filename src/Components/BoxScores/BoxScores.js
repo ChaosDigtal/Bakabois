@@ -14,7 +14,133 @@ function BoxScores(props) {
   const [teams, setTeams] = useState(null);
   const [matchs, setMatchs] = useState([]);
   const [current, setCurrent] = useState(null);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(-1);
+  const [numVisible, setNumVisible] = useState(-1);
+  const [playerList, setPlayerList] = useState([
+    {
+      "role": "QB",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "RB",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "RB",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "WR",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "WR",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "WR",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "TE",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "FLX",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "D/ST",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    },
+    {
+      "role": "K",
+      "away": {
+        "name": "Empty",
+        "score": "-"
+      },
+      "home": {
+        "name": "Empty",
+        "score": "-"
+      }
+    }
+  ]);
+
+  if (numVisible === -1) {
+    if (window.innerWidth <= 576)
+      setNumVisible(1);
+    else if (window.innerWidth <= 768)
+      setNumVisible(2);
+    else if (window.innerWidth <= 992)
+      setNumVisible(3);
+    else if (window.innerWidth <= 1200)
+      setNumVisible(5);
+    else
+      setNumVisible(8);
+  }
 
   let scoringPeriod = props.matchupPeriodId;
 
@@ -27,6 +153,12 @@ function BoxScores(props) {
   };
 
   useEffect(() => {
+    console.log(value);
+    if(window.innerWidth <= 576 && value >= 0)
+      showBoxScore(matchs[value].leagueID, matchs[value].id)
+  }, [value])
+
+  useEffect(() => {
     setValue(props.value);
     var _matchs = [];
     var _leagueName = "";
@@ -35,8 +167,8 @@ function BoxScores(props) {
     axios
       .get(
         "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/1446375?scoringPeriodId=" +
-          scoringPeriod +
-          "&view=mBoxscore&view=mMatchupScore&view=mRoster&view=mSettings&view=mStatus&view=mTeam&view=modular&view=mNav",
+        scoringPeriod +
+        "&view=mBoxscore&view=mMatchupScore&view=mRoster&view=mSettings&view=mStatus&view=mTeam&view=modular&view=mNav",
         {}
       )
       .then((response) => {
@@ -98,7 +230,7 @@ function BoxScores(props) {
             if (
               props.leagueID === 1446375 &&
               match_data["id"] === props.matchId
-            ){
+            ) {
               setCurrent(match_data);
               _value = _matchs.length;
             }
@@ -108,8 +240,8 @@ function BoxScores(props) {
         axios
           .get(
             "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/1869404038?scoringPeriodId=" +
-              scoringPeriod +
-              "&view=mBoxscore&view=mMatchupScore&view=mRoster&view=mSettings&view=mStatus&view=mTeam&view=modular&view=mNav",
+            scoringPeriod +
+            "&view=mBoxscore&view=mMatchupScore&view=mRoster&view=mSettings&view=mStatus&view=mTeam&view=modular&view=mNav",
             {}
           )
           .then((response) => {
@@ -182,7 +314,7 @@ function BoxScores(props) {
                 if (
                   props.leagueID === 1869404038 &&
                   match_data["id"] === props.matchId
-                ){
+                ) {
                   setCurrent(match_data);
                   _value = _matchs.length;
                 }
@@ -207,20 +339,25 @@ function BoxScores(props) {
 
   const responsiveOptions = [
     {
-      breakpoint: "1199px",
-      numVisible: 1,
-      numScroll: 1,
+      breakpoint: '1200px',
+      numVisible: 5,
+      numScroll: 1
     },
     {
-      breakpoint: "991px",
+      breakpoint: '992px',
+      numVisible: 3,
+      numScroll: 1
+    },
+    {
+      breakpoint: '768px',
       numVisible: 2,
-      numScroll: 1,
+      numScroll: 1
     },
     {
-      breakpoint: "767px",
+      breakpoint: '576px',
       numVisible: 1,
-      numScroll: 1,
-    },
+      numScroll: 1
+    }
   ];
 
   const showBoxScore = (leagueID, matchId) => {
@@ -268,6 +405,40 @@ function BoxScores(props) {
     );
   };
 
+  const awayScoreTemplate = (record) => {
+    return (
+      <div className="flex justify-content-between">
+        <div>
+          {record.away.name}
+        </div>
+        <div>
+          {record.away.score}
+        </div>
+      </div>
+    )
+  }
+
+  const homeScoreTemplate = (record) => {
+    return (
+      <div className="flex justify-content-between">
+        <div>
+          {record.away.score}
+        </div>
+        <div>
+          {record.away.name}
+        </div>
+      </div>
+    )
+  }
+
+  const roleTemplate = (record) => {
+    return (
+      <div className="text-center">
+        {record.role}
+      </div>
+    )
+  }
+
   return (
     <div className="boxscores">
       {teams !== null && (
@@ -275,23 +446,27 @@ function BoxScores(props) {
           <div className="header-matchups">
             <div className="header">
               <div className="-logo">
-                <span>NFL Week {props.matchupPeriodId} Box Scores</span>
+                <span>NFL Week {props.matchupPeriodId}
+                </span>
               </div>
-              <div className="league-name">
+              <div className="hidden sm:block league-name">
                 <span>{leagueName}</span>
               </div>
             </div>
             <div className="matchups">
-              <Carousel
-                value={matchs}
-                page={value}
-                numScroll={1}
-                numVisible={7}
-                itemTemplate={matchTemplate}
-              />
+              <div className="card">
+                <Carousel
+                  value={matchs}
+                  page={value}
+                  onPageChange={(event) => {setValue(event.page)}}
+                  numScroll={1}
+                  numVisible={numVisible}
+                  // responsiveOptions={responsiveOptions}
+                  itemTemplate={matchTemplate}
+                /></div>
             </div>
           </div>
-          <div className="teams">
+          <div className="hidden lg:flex teams">
             <div className="boxscores-away">
               <div className="away-team">
                 <div className="away-logo">
@@ -323,7 +498,7 @@ function BoxScores(props) {
               </div>
             </div>
           </div>
-          <div className="boxscore-container">
+          <div className="hidden lg:flex boxscore-container">
             <Boxscore
               name={current.away.name}
               logo={current.away.logo}
@@ -334,6 +509,37 @@ function BoxScores(props) {
               logo={current.home.logo}
               matchupPeriodId={props.matchupPeriodId}
             ></Boxscore>
+          </div>
+          <div className="lg:hidden block boxscore-container mobile text-sm">
+            <div className="flex">
+              <div className="team-header text-center" style={{"width": "50%"}}>
+                <div className="">
+                  <Avatar image={current.away.logo} shape="circle" />
+                </div>
+                <div className="surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{"max-width":"100%"}}>
+                  {current.away.name}
+                </div>
+                <div className="">
+                  {current.away.score}
+                </div>
+              </div>
+              <div className="team-header text-center" style={{"width": "50%"}}>
+                <div className="">
+                  <Avatar image={current.home.logo} shape="circle" />
+                </div>
+                <div className="surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{"max-width":"100%"}}>
+                  {current.home.name}
+                </div>
+                <div className="">
+                  {current.home.score}
+                </div>
+              </div>
+            </div>
+            <DataTable value={playerList} selectionMode="single" showGridlines>
+              <Column body={awayScoreTemplate}></Column>
+              <Column body={roleTemplate} style={{ "background-color": "var(--surface-300)", "max-width": "40px" }}></Column>
+              <Column body={homeScoreTemplate}></Column>
+            </DataTable>
           </div>
         </>
       )}

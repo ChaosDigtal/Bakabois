@@ -221,16 +221,16 @@ function Leaderboard(props) {
       imageExtensions.includes(extension)
     );
     return (
-      <>
+      <div className="flex align-items-center">
         <Avatar image={url} size="large" shape="circle" />
         <span className="teamName">{team["team"]}</span>
-      </>
+      </div>
     );
   };
 
   return (
     <div className="leaderboard">
-      <div className="header">
+      <div className="hidden sm:flex leaderboard-heading">
         <div className="league-name">
           <span>{leagueName}</span>
         </div>
@@ -238,7 +238,7 @@ function Leaderboard(props) {
           <span>{seasonName}</span>
         </div>
       </div>
-      <div className="leaderboard-table">
+      <div className="sm:mt-5 leaderboard-table">
         <DataTable
           value={standing}
           showGridlines

@@ -7,6 +7,8 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { SplitButton } from "primereact/splitbutton";
 import "./Dashboard.css";
 import logo from "../../assets/image/logo.png";
+import bkImage from "../../assets/image/homepage.jpeg";
+
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -126,30 +128,24 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard">
+    <div className="min-w-full sm:dashboard">
       <div
         className="logo"
         onClick={(e) => {
           onLogoClick();
         }}
       >
-        <img src={logo} alt="" width="120px" height="110px" />
+        <img src={logo} alt="" width="80px" height="75px" />
       </div>
       <div className="card">
         <TabView
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
         >
-          <TabPanel header="Home" leftIcon="pi pi-home mr-2">
-            <p className="m-0">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+          <TabPanel header="Home" leftIcon="pi pi-home">
+            <div className="">
+              <img src={bkImage} width="100%" height="100%"/>
+            </div>
           </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <div className="leaderboard-container">
@@ -165,7 +161,7 @@ function Dashboard() {
                   onChange={(e) => setLeagueTypeLeaderboard(e.value)}
                   options={["League 1", "League 2", "Overall"]}
                   placeholder="Select a League"
-                  className="w-full md:w-14rem"
+                  className="w-full"
                 />
               </div>
               <Leaderboard leagueType={leagueTypeLeaderboard}></Leaderboard>
@@ -186,17 +182,17 @@ function Dashboard() {
                     onChange={(e) => setLeagueTypeScoreboard(e.value)}
                     options={["League 1", "League 2", "Overall"]}
                     placeholder="Select a City"
-                    className="w-full md:w-14rem"
+                    className="w-full"
                   />
                 </div>
-                <div className="matchup-period">
+                <div className="sm:ml-5 matchup-period">
                   <div className="title">Matchups: </div>
                   <Dropdown
                     value={matchupPeriodId}
                     onChange={(e) => setMatchupPeriodId(e.value)}
                     options={matchups}
                     placeholder="NFL WEEK 1"
-                    className="w-full md:w-14rem"
+                    className="w-full"
                   />
                 </div>
               </div>

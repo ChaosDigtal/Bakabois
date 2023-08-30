@@ -28,12 +28,20 @@ function Boxscore(props) {
   );
   return (
     <div className="boxscore">
-      <div className="boxscore-header">
+      <div className="hidden md:flex boxscore-header">
         <div className="boxscore-logo">
           <Avatar image={props.logo} shape="circle" />
         </div>
         <div className="boxscore-title">
           <span>{props.name}&nbsp;&nbsp;&nbsp;Box Score</span>
+        </div>
+      </div>
+      <div className="md:hidden">
+        <div className="boxscore-logo">
+          <Avatar image={props.logo} shape="circle" />
+        </div>
+        <div className="text-sm">
+          <span>{props.name}</span>
         </div>
       </div>
       <div className="boxscore-data">

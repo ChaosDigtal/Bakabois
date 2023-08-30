@@ -3,7 +3,7 @@
 }
 
 .header {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-left: 40px;
     display: flex;
 }
@@ -14,18 +14,14 @@
 }
 
 .scoreboard .league-name {
-    margin-left: 15px;
     font-size: 25px;
     font-weight: 900;
 }
 
 .match-container {
-    width: 1550px;
-    margin-top: 0px;
-    display: flex;
-    flex: 0 0 1600px;
-    justify-content: space-between;
+    justify-content: center;
+    display:flex;
     flex-wrap: wrap;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
 }

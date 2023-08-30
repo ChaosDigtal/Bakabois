@@ -1,9 +1,4 @@
-.dashboard {
-    min-width: 1600px;
-}
-
 .p-tabview-nav-container {
-    padding-top: 25px;
     background-color: lightgrey;
 }
 
@@ -12,7 +7,7 @@
 }
 
 .p-tabview-nav {
-    padding-left: 90px!important;
+    padding-left: 55px!important;
 }
 
 .p-tabview-panels {
@@ -40,14 +35,22 @@
 
 .p-tabview-nav li a {
     background-color: rgba(0,0,0,0)!important;
+    font-size: 13px!important;
+    font-weight: 700!important;
 }
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
     box-shadow: none!important;
 }
 
+.p-disabled {
+    display: none;
+}
 
-
+.p-tabview-nav-link{
+    padding-left: 12px!important;
+    padding-right: 12px!important;
+}
 .p-tabview-nav li:not(.p-tabview-selected):hover{
     background-color: rgb(200, 200, 200)!important;
 }
@@ -66,7 +69,7 @@
 
 
 .p-tabview-title {
-    margin-left: 10px;
+    margin-left: 3px;
 }
 
 .p-tabview-nav .p-button {
@@ -78,7 +81,9 @@
 }
 
 .logo {
-    top: -3px;
+    background-color: dark;
+    margin-left: -10px;
+    top: -5px;
     position: absolute;
     z-index: 10000;
 }
@@ -104,15 +109,15 @@
 .leaderboard-menu {
     position: absolute;
     margin-top: 25px;
-    margin-left: 450px;
+    margin-left: 20px;
     display: flex;
 }
 
 .leaderboard-menu .title {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 700;
-    margin-top: 5px;
-    margin-right: 10px;
+    margin-top: 8px;
+    margin-right: 5px;
 }
 
 .-logo {
@@ -125,7 +130,6 @@
     background-color: white;
     border-radius: 15px;
     padding-bottom: 20px;
-    width: 1550px!important;
 }
 
 .scoreboard-header {
@@ -136,9 +140,9 @@
 }
 
 .scoreboard-tool {
-    margin-top: 20px;
-    padding-left: 50px;
+    padding-left: 25px;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .scoreboard-menu {
@@ -154,13 +158,12 @@
 }
 
 .matchup-period {
-    margin-left: 30px;
     margin-top: 25px;
     display: flex;
 }
 
 .matchup-period .title {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 700;
     margin-top: 5px;;
     margin-right: 10px;

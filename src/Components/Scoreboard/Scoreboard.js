@@ -95,11 +95,6 @@ function Scoreboard(props) {
 
   return (
     <div className="scoreboard">
-      <div className="header">
-        <div className="league-name">
-          <span>{leagueName}</span>
-        </div>
-      </div>
       <div className="match-container">{matchupBody}</div>
     </div>
   );

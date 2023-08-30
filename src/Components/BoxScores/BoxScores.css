@@ -31,9 +31,7 @@
 }
 
 .boxscores-match {
-    width: 200px;
     height: 65px;
-    border-right: 1px solid lightgrey;
     margin-top: 15px;
     margin-left: 10px;
 }
@@ -46,7 +44,7 @@
 }
 
 .current {
-    background-color: rgb(199, 252, 199)!important;
+    background-color: rgb(199, 252, 199) !important;
 }
 
 .match-area:hover {
@@ -58,7 +56,8 @@
     display: flex;
 }
 
-.boxscores-match .away, .boxscores-match .home {
+.boxscores-match .away,
+.boxscores-match .home {
     display: flex;
     justify-content: space-between;
 }
@@ -80,7 +79,7 @@
 }
 
 .p-carousel-indicators {
-    display: none!important;
+    display: none !important;
 }
 
 .boxscores .teams {
@@ -130,8 +129,8 @@
 }
 
 .boxscores .teams .p-avatar {
-    width: 70px!important;
-    height: 70px!important;
+    width: 70px !important;
+    height: 70px !important;
 }
 
 .away-score {
@@ -195,4 +194,41 @@
     border-radius: 15px;
     margin-top: 20px;
     padding: 30px 20px;
+}
+
+.team-header {
+    text-align: center;
+    max-width: 80%;
+}
+
+.mobile thead{
+    display: none;
+}
+
+.p-carousel-item {
+    flex: 1 0 12.5%
+}
+
+@media screen and (max-width: 1200px) {
+    .p-carousel-item {
+        flex: 1 0 20%
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .p-carousel-item {
+        flex: 1 0 33%
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .p-carousel-item {
+        flex: 1 0 50%
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .p-carousel-item {
+        flex: 1 0 100%
+    }
 }

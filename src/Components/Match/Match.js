@@ -8,7 +8,7 @@ function Match(props) {
     props.showBoxScore(props.id);
   };
   return (
-    <div className="match">
+    <div className="lg:mx-8 match" onClick={showBoxScore}>
       <div className="teams">
         <div className="away">
           <div className="team-info">
@@ -37,7 +37,7 @@ function Match(props) {
           </div>
         </div>
       </div>
-      <div className="tools">
+      <div className="hidden sm:block tools">
         <div className="box-score">
           <Button label="Box score" text raised onClick={showBoxScore} />
         </div>
