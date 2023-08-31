@@ -130,6 +130,7 @@ function Dashboard() {
 
   return (
     <div className="min-w-full sm:dashboard">
+      <div className="blank"></div>
       <div
         className="logo"
         onClick={(e) => {

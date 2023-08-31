@@ -6,6 +6,10 @@
     background-color: #ffdcdc!important;
 }
 
+.p-tabview-nav-container {
+    background-color: #ffdcdc!important;
+}
+
 .p-tabview-nav {
     padding-left: 55px!important;
 }
@@ -44,13 +48,15 @@
     color: white!important;
 }
 
-.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+.p-tabview .p-tabview-nav li:not(.p-tabview-selected) .p-tabview-nav-link {
     color: black!important;
 }
 
-.p-disabled {
-    display: none;
+.p-tabview-selected .p-tabview-nav-link {
+    color: white!important;
 }
+
+
 
 .p-tabview-nav-link{
     padding-left: 12px!important;
@@ -91,6 +97,14 @@
     top: -5px;
     position: absolute;
     z-index: 10000;
+}
+
+.blank {
+    background-color: #ffdcdc;
+    position: absolute;
+    z-index: 9999;
+    min-width: 55px;
+    min-height: 59px;
 }
 
 .p-splitbutton-menubutton {
