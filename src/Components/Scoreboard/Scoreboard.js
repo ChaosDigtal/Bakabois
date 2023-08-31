@@ -95,7 +95,7 @@ function Scoreboard(props) {
 
   return (
     <div className="scoreboard">
-      <div className="match-container">{matchupBody}</div>
+      <div className="xxl match-container">{matchupBody}</div>
     </div>
   );
 }
