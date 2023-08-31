@@ -139,7 +139,7 @@ function BoxScores(props) {
     else if (window.innerWidth <= 1200)
       setNumVisible(5);
     else
-      setNumVisible(8);
+      setNumVisible(7);
   }
 
   let scoringPeriod = props.matchupPeriodId;
