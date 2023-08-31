@@ -3,7 +3,7 @@
 }
 
 .p-tabview .p-tabview-nav {
-    background-color: lightgrey!important;
+    background-color: #ffdcdc!important;
 }
 
 .p-tabview-nav {
@@ -41,6 +41,11 @@
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
     box-shadow: none!important;
+    color: white!important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    color: black!important;
 }
 
 .p-disabled {

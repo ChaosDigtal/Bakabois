@@ -204,24 +204,24 @@ function BoxScores(props) {
                 name: home_team["name"],
                 logo: home_team["logo"],
                 score: match["home"]["adjustment"],
-                div:
-                  match["home"]["cumulativeScore"]["wins"] +
-                  "-" +
-                  match["home"]["cumulativeScore"]["losses"] +
-                  "-" +
-                  match["home"]["cumulativeScore"]["ties"],
+                div: "0-0-0",
+                  // match["home"]["cumulativeScore"]["wins"] +
+                  // "-" +
+                  // match["home"]["cumulativeScore"]["losses"] +
+                  // "-" +
+                  // match["home"]["cumulativeScore"]["ties"],
                 manager: home_team["manager"],
               },
               away: {
                 name: away_team["name"],
                 logo: away_team["logo"],
                 score: match["away"]["adjustment"],
-                div:
-                  match["away"]["cumulativeScore"]["wins"] +
-                  "-" +
-                  match["away"]["cumulativeScore"]["losses"] +
-                  "-" +
-                  match["away"]["cumulativeScore"]["ties"],
+                div: "0-0-0",
+                  // match["away"]["cumulativeScore"]["wins"] +
+                  // "-" +
+                  // match["away"]["cumulativeScore"]["losses"] +
+                  // "-" +
+                  // match["away"]["cumulativeScore"]["ties"],
                 manager: away_team["manager"],
               },
               id: match["id"].toString(),

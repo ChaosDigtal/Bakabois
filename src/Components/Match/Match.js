@@ -39,7 +39,7 @@ function Match(props) {
       </div>
       <div className="hidden sm:block tools">
         <div className="box-score">
-          <Button label="Box score" text raised onClick={showBoxScore} />
+          <Button label="Box Score" text raised onClick={showBoxScore} />
         </div>
       </div>
     </div>

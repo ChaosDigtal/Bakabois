@@ -7,7 +7,8 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { SplitButton } from "primereact/splitbutton";
 import "./Dashboard.css";
 import logo from "../../assets/image/logo.png";
-import bkImage from "../../assets/image/homepage.jpeg";
+import bkImage1 from "../../assets/image/image1.jpeg";
+import bkImage2 from "../../assets/image/image2.jpeg";
 
 
 function Dashboard() {
@@ -144,7 +145,12 @@ function Dashboard() {
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
             <div className="">
-              <img src={bkImage} width="100%" height="100%"/>
+              <div className="">
+                <img src={bkImage1} width="100%" height="100%" />
+              </div>
+              <div className="">
+                <img src={bkImage2} width="100%" height="100%" />
+              </div>
             </div>
           </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
@@ -199,20 +205,20 @@ function Dashboard() {
 
               {(leagueTypeScoreboard === "League 1" ||
                 leagueTypeScoreboard === "Overall") && (
-                <Scoreboard
-                  leagueType="league1"
-                  showBoxScore={showBoxScore}
-                  matchupPeriodId={matchupPeriodId}
-                ></Scoreboard>
-              )}
+                  <Scoreboard
+                    leagueType="league1"
+                    showBoxScore={showBoxScore}
+                    matchupPeriodId={matchupPeriodId}
+                  ></Scoreboard>
+                )}
               {(leagueTypeScoreboard === "League 2" ||
                 leagueTypeScoreboard === "Overall") && (
-                <Scoreboard
-                  leagueType="league2"
-                  showBoxScore={showBoxScore}
-                  matchupPeriodId={matchupPeriodId}
-                ></Scoreboard>
-              )}
+                  <Scoreboard
+                    leagueType="league2"
+                    showBoxScore={showBoxScore}
+                    matchupPeriodId={matchupPeriodId}
+                  ></Scoreboard>
+                )}
             </div>
           </TabPanel>
           <TabPanel header="Box Score" leftIcon="pi pi-book" disabled>
