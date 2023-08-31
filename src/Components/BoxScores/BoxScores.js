@@ -154,7 +154,7 @@ function BoxScores(props) {
 
   useEffect(() => {
     console.log(value);
-    if(window.innerWidth <= 576 && value >= 0)
+    if(window.innerWidth <= 576 && matchs.length > 0)
       showBoxScore(matchs[value].leagueID, matchs[value].id)
   }, [value])
 
