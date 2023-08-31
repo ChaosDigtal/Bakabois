@@ -222,7 +222,7 @@ function Dashboard() {
                 )}
             </div>
           </TabPanel>
-          <TabPanel header="Box Score" leftIcon="pi pi-book" disabled>
+          <TabPanel header="Box Score" leftIcon="pi pi-book">
             <BoxScores
               leagueID={leagueID}
               value={value}
