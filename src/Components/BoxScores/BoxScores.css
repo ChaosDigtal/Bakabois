@@ -67,15 +67,17 @@
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100px;
+    width: 70px;
     white-space: nowrap;
 }
 
 .boxscores-match .score {
     float: right;
-    font-size: 17px;
-    font-weight: 400;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
     margin-top: 5px;
+    width: 40px;
 }
 
 .p-carousel-indicators {
@@ -141,6 +143,12 @@
     font-weight: 500;
 }
 
+.text-middle {
+    position: relative;
+    top: 50%;
+    transform: translate(0%,-50%);
+}
+
 .boxscores-home {
     flex: 50%;
     display: flex;
@@ -203,6 +211,21 @@
 
 .mobile thead{
     display: none;
+}
+
+.boxscore-away {
+    width: calc(50% - 120px);
+}
+
+.boxscore-compare {
+    width: 210px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.boxscore-home {
+    width: calc(50% - 120px);
+    float: right;
 }
 
 @media screen and (max-width: 1200px) {

@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Boxscore from "../Boxscore/Boxscore";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Row } from 'primereact/row';
 import { Avatar } from "primereact/avatar";
 import { Carousel } from "primereact/carousel";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import axios from "axios";
 import "./BoxScores.css";
+import { ColumnGroup } from "primereact/columngroup";
 
 function BoxScores(props) {
   const [leagueName, setLeagueName] = useState("");
@@ -16,118 +18,10 @@ function BoxScores(props) {
   const [current, setCurrent] = useState(null);
   const [value, setValue] = useState(-1);
   const [numVisible, setNumVisible] = useState(-1);
-  const [playerList, setPlayerList] = useState([
-    {
-      "role": "QB",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "RB",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "RB",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "WR",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "WR",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "WR",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "TE",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "FLX",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "D/ST",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    },
-    {
-      "role": "K",
-      "away": {
-        "name": "Empty",
-        "score": "-"
-      },
-      "home": {
-        "name": "Empty",
-        "score": "-"
-      }
-    }
-  ]);
+  const [playerList, setPlayerList] = useState([]);
+  const [awayPlayerList, setAwayPlayerList] = useState([]);
+  const [homePlayerList, setHomePlayerList] = useState([]);
+  const [compareList, setCompareList] = useState([]);
 
   if (numVisible === -1) {
     if (window.innerWidth <= 576)
@@ -153,8 +47,7 @@ function BoxScores(props) {
   };
 
   useEffect(() => {
-    console.log(value);
-    if(window.innerWidth <= 576 && matchs.length > 0)
+    if (window.innerWidth <= 576 && matchs.length > 0)
       showBoxScore(matchs[value].leagueID, matchs[value].id)
   }, [value])
 
@@ -163,7 +56,6 @@ function BoxScores(props) {
     var _matchs = [];
     var _leagueName = "";
     var _value;
-    console.log(props.leagueID);
     axios
       .get(
         "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/1446375?scoringPeriodId=" +
@@ -173,7 +65,6 @@ function BoxScores(props) {
       )
       .then((response) => {
         let result = response["data"];
-        console.log(result);
         _leagueName = result["settings"]["name"];
         var _teams = {};
         result["teams"].forEach((team) => {
@@ -194,6 +85,9 @@ function BoxScores(props) {
             logo: logoURL(team["logo"]),
             manager: managerName,
           };
+          team["roster"]["entries"].forEach(player => {
+            _teams[team["id"].toString()][player["playerId"]] = player["playerPoolEntry"]["ratings"]["0"]["positionalRanking"];
+          });
         });
         result["schedule"].forEach((match) => {
           if (match["matchupPeriodId"].toString() === props.matchupPeriodId) {
@@ -205,24 +99,26 @@ function BoxScores(props) {
                 logo: home_team["logo"],
                 score: match["home"]["adjustment"],
                 div: "0-0-0",
-                  // match["home"]["cumulativeScore"]["wins"] +
-                  // "-" +
-                  // match["home"]["cumulativeScore"]["losses"] +
-                  // "-" +
-                  // match["home"]["cumulativeScore"]["ties"],
+                // match["home"]["cumulativeScore"]["wins"] +
+                // "-" +
+                // match["home"]["cumulativeScore"]["losses"] +
+                // "-" +
+                // match["home"]["cumulativeScore"]["ties"],
                 manager: home_team["manager"],
+                projs: 0.0
               },
               away: {
                 name: away_team["name"],
                 logo: away_team["logo"],
                 score: match["away"]["adjustment"],
                 div: "0-0-0",
-                  // match["away"]["cumulativeScore"]["wins"] +
-                  // "-" +
-                  // match["away"]["cumulativeScore"]["losses"] +
-                  // "-" +
-                  // match["away"]["cumulativeScore"]["ties"],
+                // match["away"]["cumulativeScore"]["wins"] +
+                // "-" +
+                // match["away"]["cumulativeScore"]["losses"] +
+                // "-" +
+                // match["away"]["cumulativeScore"]["ties"],
                 manager: away_team["manager"],
+                projs: 0.0
               },
               id: match["id"].toString(),
               leagueID: 1446375,
@@ -231,8 +127,212 @@ function BoxScores(props) {
               props.leagueID === 1446375 &&
               match_data["id"] === props.matchId
             ) {
-              setCurrent(match_data);
               _value = _matchs.length;
+
+              let away_proj = 0.0, home_proj = 0.0;
+              let _awayPlayerList = new Array(9);
+              let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
+              let pRB = [1, 2, 6], pWR = [3, 4, 6];
+              match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
+                let id = player["playerPoolEntry"]["id"];
+                let fullName = player["playerPoolEntry"]["player"]["fullName"];
+                let lastName = player["playerPoolEntry"]["player"]["lastName"];
+                let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
+                let proj = player["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                if (pos === 1) {
+                  if (cQB === 0) {
+                    cQB = 1;
+                    away_proj += proj;
+                    _awayPlayerList[0] = {
+                      name: fullName,
+                      pos: "QB",
+                      prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (pos === 2) {
+                  for (var i = 0; i < 3; ++i) {
+                    if (_awayPlayerList[pRB[i]] === undefined) {
+                      away_proj += proj;
+                      _awayPlayerList[pRB[i]] = {
+                        name: fullName,
+                        pos: "RB",
+                        prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                      break;
+                    }
+                  };
+                } else if (pos === 3) {
+                  for (var i = 0; i < 3; ++i) {
+                    if (_awayPlayerList[pWR[i]] === undefined) {
+                      away_proj += proj;
+                      _awayPlayerList[pWR[i]] = {
+                        name: fullName,
+                        pos: "WR",
+                        prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                      break;
+                    }
+                  };
+                } else if (pos === 4) {
+                  if (cTE === 0) {
+                    cTE = 1;
+                    away_proj += proj;
+                    _awayPlayerList[5] = {
+                      name: fullName,
+                      pos: "TE",
+                      prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (pos === 5) {
+                  if (cK === 0) {
+                    cK = 1;
+                    away_proj += proj;
+                    _awayPlayerList[8] = {
+                      name: fullName,
+                      pos: "K",
+                      prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (lastName === "D/ST") {
+                  away_proj += proj;
+                  _awayPlayerList[7] = {
+                    name: fullName,
+                    pos: "D/ST",
+                    prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                    proj: proj.toFixed(1),
+                    avg: "---"
+                  }
+                }
+              });
+              setAwayPlayerList(_awayPlayerList);
+
+              let _homePlayerList = new Array(9);
+              cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
+              match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
+                let id = player["playerPoolEntry"]["id"];
+                let fullName = player["playerPoolEntry"]["player"]["fullName"];
+                let lastName = player["playerPoolEntry"]["player"]["lastName"];
+                let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
+                let proj = player["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                if (pos === 1) {
+                  if (cQB === 0) {
+                    cQB = 1;
+                    home_proj += proj;
+                    _homePlayerList[0] = {
+                      name: fullName,
+                      pos: "QB",
+                      prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (pos === 2) {
+                  for (var i = 0; i < 3; ++i) {
+                    if (_homePlayerList[pRB[i]] === undefined) {
+                      home_proj += proj;
+                      _homePlayerList[pRB[i]] = {
+                        name: fullName,
+                        pos: "RB",
+                        prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                      break;
+                    }
+                  };
+                } else if (pos === 3) {
+                  for (var i = 0; i < 3; ++i) {
+                    if (_homePlayerList[pWR[i]] === undefined) {
+                      home_proj += proj;
+                      _homePlayerList[pWR[i]] = {
+                        name: fullName,
+                        pos: "WR",
+                        prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                      break;
+                    }
+                  };
+                } else if (pos === 4) {
+                  if (cTE === 0) {
+                    cTE = 1;
+                    home_proj += proj;
+                    _homePlayerList[5] = {
+                      name: fullName,
+                      pos: "TE",
+                      prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (pos === 5) {
+                  if (cK === 0) {
+                    cK = 1;
+                    home_proj += proj;
+                    _homePlayerList[8] = {
+                      name: fullName,
+                      pos: "K",
+                      prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                      proj: proj.toFixed(1),
+                      avg: "---"
+                    }
+                  }
+                } else if (lastName === "D/ST") {
+                  home_proj += proj;
+                  _homePlayerList[7] = {
+                    name: fullName,
+                    pos: "D/ST",
+                    prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                    proj: proj.toFixed(1),
+                    avg: "---"
+                  }
+                }
+              });
+              setHomePlayerList(_homePlayerList);
+
+              let _compareList = [];
+              let _playerList = [];
+              for (var i = 0; i < _awayPlayerList.length; ++i) {
+                _compareList.push({
+                  flag: (parseFloat(_awayPlayerList[i]["proj"]) >= parseFloat(_homePlayerList[i]["proj"])),
+                  role: (i === 6 ? "FLEX" : _awayPlayerList[i]["pos"])
+                })
+                _playerList.push({
+                  role: (i === 6 ? "FLEX" : _awayPlayerList[i]["pos"]),
+                  away: {
+                    name: _awayPlayerList[i]["name"],
+                    score: _awayPlayerList[i]["proj"]
+                  },
+                  home: {
+                    name: _homePlayerList[i]["name"],
+                    score: _homePlayerList[i]["proj"]
+                  }
+                })
+              }
+
+              _compareList.push({
+                flag: (away_proj >= home_proj),
+                role: "TEAM"
+              });
+
+              setCompareList(_compareList);
+
+              setPlayerList(_playerList);
+
+              match_data["away"]["proj"] = away_proj.toFixed(1);
+              match_data["home"]["proj"] = home_proj.toFixed(1);
+              setCurrent(match_data);
             }
             _matchs.push(match_data);
           }
@@ -246,7 +346,7 @@ function BoxScores(props) {
           )
           .then((response) => {
             result = response["data"];
-            console.log(result);
+
             setLeagueName(_leagueName + ", " + result["settings"]["name"]);
             _teams = {};
             result["teams"].forEach((team) => {
@@ -268,6 +368,9 @@ function BoxScores(props) {
                 logo: logoURL(team["logo"]),
                 manager: managerName,
               };
+              team["roster"]["entries"].forEach(player => {
+                _teams[team["id"].toString()][player["playerId"]] = player["playerPoolEntry"]["ratings"]["0"]["positionalRanking"];
+              });
             });
             setTeams(_teams);
             result["schedule"].forEach((match) => {
@@ -300,6 +403,7 @@ function BoxScores(props) {
                     score: match["home"]["adjustment"],
                     div: home_div,
                     manager: home_team["manager"],
+                    proj: 0.0
                   },
                   away: {
                     name: away_team["name"],
@@ -307,6 +411,7 @@ function BoxScores(props) {
                     score: match["away"]["adjustment"],
                     div: away_div,
                     manager: away_team["manager"],
+                    proj: 0.0
                   },
                   id: match["id"].toString(),
                   leagueID: 1869404038,
@@ -315,13 +420,217 @@ function BoxScores(props) {
                   props.leagueID === 1869404038 &&
                   match_data["id"] === props.matchId
                 ) {
-                  setCurrent(match_data);
                   _value = _matchs.length;
+
+                  let away_proj = 0.0, home_proj = 0.0;
+                  let _awayPlayerList = new Array(9);
+                  let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
+                  let pRB = [1, 2, 6], pWR = [3, 4, 6];
+                  match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
+                    let id = player["playerPoolEntry"]["id"];
+                    let fullName = player["playerPoolEntry"]["player"]["fullName"];
+                    let lastName = player["playerPoolEntry"]["player"]["lastName"];
+                    let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
+                    let proj = player["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                    if (pos === 1) {
+                      if (cQB === 0) {
+                        cQB = 1;
+                        away_proj += proj;
+                        _awayPlayerList[0] = {
+                          name: fullName,
+                          pos: "QB",
+                          prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (pos === 2) {
+                      for (var i = 0; i < 3; ++i) {
+                        if (_awayPlayerList[pRB[i]] === undefined) {
+                          away_proj += proj;
+                          _awayPlayerList[pRB[i]] = {
+                            name: fullName,
+                            pos: "RB",
+                            prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                            proj: proj.toFixed(1),
+                            avg: "---"
+                          }
+                          break;
+                        }
+                      };
+                    } else if (pos === 3) {
+                      for (var i = 0; i < 3; ++i) {
+                        if (_awayPlayerList[pWR[i]] === undefined) {
+                          away_proj += proj;
+                          _awayPlayerList[pWR[i]] = {
+                            name: fullName,
+                            pos: "WR",
+                            prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                            proj: proj.toFixed(1),
+                            avg: "---"
+                          }
+                          break;
+                        }
+                      };
+                    } else if (pos === 4) {
+                      if (cTE === 0) {
+                        cTE = 1;
+                        away_proj += proj;
+                        _awayPlayerList[5] = {
+                          name: fullName,
+                          pos: "TE",
+                          prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (pos === 5) {
+                      if (cK === 0) {
+                        cK = 1;
+                        away_proj += proj;
+                        _awayPlayerList[8] = {
+                          name: fullName,
+                          pos: "K",
+                          prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (lastName === "D/ST") {
+                      away_proj += proj;
+                      _awayPlayerList[7] = {
+                        name: fullName,
+                        pos: "D/ST",
+                        prk: (away_team[id] === 0 ? "---" : away_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                    }
+                  });
+                  setAwayPlayerList(_awayPlayerList);
+
+                  let _homePlayerList = new Array(9);
+                  cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
+                  match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
+                    let id = player["playerPoolEntry"]["id"];
+                    let fullName = player["playerPoolEntry"]["player"]["fullName"];
+                    let lastName = player["playerPoolEntry"]["player"]["lastName"];
+                    let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
+                    let proj = player["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                    if (pos === 1) {
+                      if (cQB === 0) {
+                        cQB = 1;
+                        home_proj += proj;
+                        _homePlayerList[0] = {
+                          name: fullName,
+                          pos: "QB",
+                          prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (pos === 2) {
+                      for (var i = 0; i < 3; ++i) {
+                        if (_homePlayerList[pRB[i]] === undefined) {
+                          home_proj += proj;
+                          _homePlayerList[pRB[i]] = {
+                            name: fullName,
+                            pos: "RB",
+                            prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                            proj: proj.toFixed(1),
+                            avg: "---"
+                          }
+                          break;
+                        }
+                      };
+                    } else if (pos === 3) {
+                      for (var i = 0; i < 3; ++i) {
+                        if (_homePlayerList[pWR[i]] === undefined) {
+                          home_proj += proj;
+                          _homePlayerList[pWR[i]] = {
+                            name: fullName,
+                            pos: "WR",
+                            prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                            proj: proj.toFixed(1),
+                            avg: "---"
+                          }
+                          break;
+                        }
+                      };
+                    } else if (pos === 4) {
+                      if (cTE === 0) {
+                        cTE = 1;
+                        home_proj += proj;
+                        _homePlayerList[5] = {
+                          name: fullName,
+                          pos: "TE",
+                          prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (pos === 5) {
+                      if (cK === 0) {
+                        cK = 1;
+                        home_proj += proj;
+                        _homePlayerList[8] = {
+                          name: fullName,
+                          pos: "K",
+                          prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                          proj: proj.toFixed(1),
+                          avg: "---"
+                        }
+                      }
+                    } else if (lastName === "D/ST") {
+                      home_proj += proj;
+                      _homePlayerList[7] = {
+                        name: fullName,
+                        pos: "D/ST",
+                        prk: (home_team[id] === 0 ? "---" : home_team[id]),
+                        proj: proj.toFixed(1),
+                        avg: "---"
+                      }
+                    }
+                  });
+                  setHomePlayerList(_homePlayerList);
+
+                  let _compareList = [];
+                  let _playerList = [];
+                  for (var i = 0; i < _awayPlayerList.length; ++i) {
+                    _compareList.push({
+                      flag: (parseFloat(_awayPlayerList[i]["proj"]) >= parseFloat(_homePlayerList[i]["proj"])),
+                      role: (i === 6 ? "FLEX" : _awayPlayerList[i]["pos"])
+                    })
+                    _playerList.push({
+                      role: (i === 6 ? "FLEX" : _awayPlayerList[i]["pos"]),
+                      away: {
+                        name: _awayPlayerList[i]["name"],
+                        score: _awayPlayerList[i]["proj"]
+                      },
+                      home: {
+                        name: _homePlayerList[i]["name"],
+                        score: _homePlayerList[i]["proj"]
+                      }
+                    })
+                  }
+
+                  _compareList.push({
+                    flag: (away_proj >= home_proj),
+                    role: "TEAM"
+                  });
+
+                  setCompareList(_compareList);
+
+                  setPlayerList(_playerList);
+
+                  match_data["away"]["proj"] = away_proj.toFixed(1);
+                  match_data["home"]["proj"] = home_proj.toFixed(1);
+                  setCurrent(match_data);
                 }
                 _matchs.push(match_data);
               }
             });
-            console.log(_matchs.length);
+
             setMatchs(_matchs);
             if (_value > _matchs.length - 7)
               _value = _matchs.length - 7;
@@ -361,7 +670,7 @@ function BoxScores(props) {
   ];
 
   const showBoxScore = (leagueID, matchId) => {
-    console.log(matchId, typeof matchId);
+
     props.showBoxScore(leagueID, matchId, value);
   };
 
@@ -408,11 +717,11 @@ function BoxScores(props) {
   const awayScoreTemplate = (record) => {
     return (
       <div className="flex justify-content-between">
-        <div>
+        <div className="text-center">
           {record.away.name}
         </div>
         <div>
-          {record.away.score}
+          <div className="text-middle">{record.away.score}</div>
         </div>
       </div>
     )
@@ -422,22 +731,75 @@ function BoxScores(props) {
     return (
       <div className="flex justify-content-between">
         <div>
-          {record.away.score}
+          <div className="text-middle">{record.home.score}</div>
         </div>
-        <div>
-          {record.away.name}
+        <div className="text-center">
+          {record.home.name}
         </div>
       </div>
     )
   }
 
   const roleTemplate = (record) => {
+
     return (
       <div className="text-center">
         {record.role}
       </div>
     )
   }
+
+  // const headerGroup = (
+  //     <ColumnGroup>
+  //         <Row>
+  //             <Column header = "Team Name" rowSpan
+  //         </Row>
+  //     </ColumnGroup>
+  // );
+
+  const advAwayTemplate = (data, props) => {
+    if (data["flag"] === true)
+      return (<i className="pi pi-check" style={{ color: 'green', fontSize: '1rem' }}></i>);
+    return (<div></div>)
+  }
+
+  const advHomeTemplate = (data, props) => {
+    if (data["flag"] === false)
+      return (<i className="pi pi-check" style={{ color: 'green', fontSize: '1rem' }}></i>);
+    return (<div></div>)
+  }
+
+  const awayFooterGroup = (
+    <ColumnGroup>
+      <Row>
+        <Column colSpan={2} />
+        <Column footer="Total" colSpan={1} />
+        <Column footer="---" colSpan={1} />
+        <Column footer={current === null ? "" : current.away.proj} colSpan={1} />
+      </Row>
+    </ColumnGroup>
+  );
+
+  const compareFooterGroup = (
+    <ColumnGroup>
+      <Row>
+        <Column colSpan={1} footer={current === null ? "" : ((current.home.proj - current.away.proj > 0.0 ? "+" : "") + (current.home.proj - current.away.proj).toFixed(1))} />
+        <Column colSpan={1} footer="LINE" />
+        <Column colSpan={1} footer={current === null ? "" : ((current.away.proj - current.home.proj > 0.0 ? "+" : "") + (current.away.proj - current.home.proj).toFixed(1))} />
+      </Row>
+    </ColumnGroup>
+  )
+
+  const homeFooterGroup = (
+    <ColumnGroup>
+      <Row>
+        <Column footer={current === null ? "" : current.home.proj} colSpan={1} />
+        <Column footer="---" colSpan={1} />
+        <Column footer="Total" colSpan={1} />
+        <Column colSpan={2} />
+      </Row>
+    </ColumnGroup>
+  );
 
   return (
     <div className="boxscores">
@@ -458,7 +820,7 @@ function BoxScores(props) {
                 <Carousel
                   value={matchs}
                   page={value}
-                  onPageChange={(event) => {setValue(event.page)}}
+                  onPageChange={(event) => { setValue(event.page) }}
                   numScroll={1}
                   numVisible={numVisible}
                   // responsiveOptions={responsiveOptions}
@@ -480,10 +842,10 @@ function BoxScores(props) {
                   <div className="away-manager">{current.away.manager}</div>
                 </div>
               </div>
-              <div className="away-score">{current.away.score}</div>
+              <div className="away-score text-600">{current.away.proj}</div>
             </div>
             <div className="boxscores-home">
-              <div className="home-score">{current.home.score}</div>
+              <div className="home-score text-600">{current.home.proj}</div>
               <div className="home-team">
                 <div className="home-info">
                   <div className="home-name">
@@ -499,45 +861,60 @@ function BoxScores(props) {
             </div>
           </div>
           <div className="hidden lg:flex boxscore-container">
-            <Boxscore
-              name={current.away.name}
-              logo={current.away.logo}
-              matchupPeriodId={props.matchupPeriodId}
-            ></Boxscore>
-            <Boxscore
-              name={current.home.name}
-              logo={current.home.logo}
-              matchupPeriodId={props.matchupPeriodId}
-            ></Boxscore>
+            <div className="boxscore-away card">
+              <DataTable value={awayPlayerList} stripedRows footerColumnGroup={awayFooterGroup}>
+                <Column field="name" header="Name" />
+                <Column field="pos" header="Pos" />
+                <Column field="prk" header="PRK" />
+                <Column field="avg" header="AVG" />
+                <Column field="proj" header="PROJ" />
+              </DataTable>
+            </div>
+            <div className="boxscore-compare card">
+              <DataTable value={compareList} stripedRows footerColumnGroup={compareFooterGroup}>
+                <Column body={advAwayTemplate} header="ADV" />
+                <Column field="role" header="POS" />
+                <Column body={advHomeTemplate} header="ADV" />
+              </DataTable>
+            </div>
+            <div className="boxscore-home card">
+              <DataTable value={homePlayerList} stripedRows footerColumnGroup={homeFooterGroup}>
+                <Column field="proj" header="PROJ" />
+                <Column field="avg" header="AVG" />
+                <Column field="prk" header="PRK" />
+                <Column field="pos" header="Pos" />
+                <Column field="name" header="Name" />
+              </DataTable>
+            </div>
           </div>
           <div className="lg:hidden block boxscore-container mobile text-sm">
-            <div className="flex">
-              <div className="team-header text-center" style={{"width": "50%"}}>
+            <div className="flex mb-2">
+              <div className="team-header text-center" style={{ "width": "50%" }}>
                 <div className="">
                   <Avatar image={current.away.logo} shape="circle" />
                 </div>
-                <div className="surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{"max-width":"100%"}}>
+                <div className="font-bold surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{ "max-width": "100%" }}>
                   {current.away.name}
                 </div>
-                <div className="">
-                  {current.away.score}
+                <div className="text-base font-bold">
+                  {current.away.proj}
                 </div>
               </div>
-              <div className="team-header text-center" style={{"width": "50%"}}>
+              <div className="team-header text-center" style={{ "width": "50%" }}>
                 <div className="">
                   <Avatar image={current.home.logo} shape="circle" />
                 </div>
-                <div className="surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{"max-width":"100%"}}>
+                <div className="font-bold surface-overlay white-space-nowrap overflow-hidden text-overflow-ellipsis" style={{ "max-width": "100%" }}>
                   {current.home.name}
                 </div>
-                <div className="">
-                  {current.home.score}
+                <div className="text-base font-bold">
+                  {current.home.proj}
                 </div>
               </div>
             </div>
             <DataTable value={playerList} selectionMode="single" showGridlines>
               <Column body={awayScoreTemplate}></Column>
-              <Column body={roleTemplate} style={{ "background-color": "var(--surface-300)", "max-width": "40px" }}></Column>
+              <Column body={roleTemplate} style={{ "background-color": "var(--surface-300)", "max-width": "50px", "padding-left": "0px!important" }}></Column>
               <Column body={homeScoreTemplate}></Column>
             </DataTable>
           </div>

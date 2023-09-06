@@ -3,79 +3,80 @@
 }
 
 .p-tabview .p-tabview-nav {
-    background-color: #ffdcdc!important;
+    background-color: #ffdcdc !important;
 }
 
 .p-tabview-nav-container {
-    background-color: #ffdcdc!important;
+    background-color: #ffdcdc !important;
 }
 
 .p-tabview-nav {
-    padding-left: 55px!important;
+    padding-left: 55px !important;
 }
 
 .p-tabview-panels {
-    background-color: darkgrey!important;
+    background-color: darkgrey !important;
 }
 
-.p-tabview-selected a{
-    background-color: darkgrey!important;
+.p-tabview-selected a {
+    background-color: darkgrey !important;
 }
 
 .p-tabview-nav .p-button {
-    background-color: lightgrey!important;
-    border: 0px!important;
-    color: #6c757d!important;
+    background-color: lightgrey !important;
+    border: 0px !important;
+    color: #6c757d !important;
 }
 
 .p-tabview-selected .p-button {
-    color: darkblue!important;
+    color: darkblue !important;
 }
 
 .p-tabview-nav .p-button:focus {
-    box-shadow: none!important;
+    box-shadow: none !important;
 }
 
 
 .p-tabview-nav li a {
-    background-color: rgba(0,0,0,0)!important;
-    font-size: 13px!important;
-    font-weight: 700!important;
+    background-color: rgba(0, 0, 0, 0) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
 }
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
-    box-shadow: none!important;
-    color: white!important;
+    box-shadow: none !important;
+    color: white !important;
 }
 
 .p-tabview .p-tabview-nav li:not(.p-tabview-selected) .p-tabview-nav-link {
-    color: black!important;
+    color: black !important;
 }
 
 .p-tabview-selected .p-tabview-nav-link {
-    color: white!important;
+    color: white !important;
 }
 
 
 
-.p-tabview-nav-link{
-    padding-left: 12px!important;
-    padding-right: 12px!important;
+.p-tabview-nav-link {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
 }
-.p-tabview-nav li:not(.p-tabview-selected):hover{
-    background-color: rgb(200, 200, 200)!important;
+
+.p-tabview-nav li:not(.p-tabview-selected):hover {
+    background-color: rgb(200, 200, 200) !important;
 }
 
 .p-tabview-selected {
-    background-color: darkgrey!important;
+    background-color: darkgrey !important;
 }
 
-.p-tabview-selected a{
-    color: darkblue!important;
+.p-tabview-selected a {
+    color: darkblue !important;
 }
 
 .p-tabview .p-tabview-nav .p-tabview-ink-bar {
-    background-color: black!important;
+    background-color: black !important;
 }
 
 
@@ -84,7 +85,7 @@
 }
 
 .p-tabview-nav .p-button {
-    background-color: rgba(0,0,0,0)!important;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .p-tabview-nav .p-splitbutton {
@@ -108,7 +109,7 @@
 }
 
 .p-splitbutton-menubutton {
-    margin-left: -20px!important;
+    margin-left: -20px !important;
 }
 
 .leaderboard-container {
@@ -184,10 +185,22 @@
 .matchup-period .title {
     font-size: 22px;
     font-weight: 700;
-    margin-top: 5px;;
+    margin-top: 5px;
+    ;
     margin-right: 10px;
 }
 
 #pr_id_1_content_2 {
     text-align: -webkit-center;
+}
+
+@media screen and (max-width: 400px) {
+    .p-tabview .p-tabview-panels {
+        padding-left: 10px!important;
+        padding-right: 10px!important;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 10px!important;
+    }
 }
