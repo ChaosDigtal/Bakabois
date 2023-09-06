@@ -24,8 +24,8 @@ function Dashboard() {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (activeIndex === 2) {
-      for (var i = 1; i <= 14; ++i) {
+    if (activeIndex === 2 && matchups.length === 0) {
+      for (var i = 1; i <= 13; ++i) {
         matchups.push("NFL WEEK " + i);
       }
     }

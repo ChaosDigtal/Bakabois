@@ -173,6 +173,7 @@
 }
 
 .home-name {
+    text-align: right;
     margin-top: 15px;
     font-size: 30px;
     font-weight: 700;
