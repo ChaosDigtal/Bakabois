@@ -817,7 +817,7 @@ function BoxScores(props) {
 
   return (
     <div className="boxscores">
-      {teams !== null && (
+      {current !== null && (
         <>
           <div className="header-matchups">
             <div className="header">
