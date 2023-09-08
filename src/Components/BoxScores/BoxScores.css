@@ -218,16 +218,10 @@
     width: calc(50% - 120px);
 }
 
-.boxscore-away-actual {
-    width: calc(50% - 20px)!important;
-}
-
-.boxscore-home-actual {
-    width: calc(50% - 20px)!important;
-}
 
 .boxscore-compare {
-    width: 210px;
+    max-width: 220px;
+    min-width: 220px;
     margin-left: 20px;
     margin-right: 20px;
 }
