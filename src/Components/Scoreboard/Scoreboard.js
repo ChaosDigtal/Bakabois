@@ -9,13 +9,16 @@ function Scoreboard(props) {
   const [leagueName, setLeagueName] = useState("Bakabois");
   const [matchupPeriod, setMatchupPeriod] = useState("NFL WEEK 1");
   const [matchupBody, setMatchupBody] = useState([]);
+  const [projected, setProjected] = useState(1);
 
   useEffect(() => {
     setMatchupPeriod(props.matchupPeriodId);
-    console.log(props.matchupPeriodId);
   }, [props.matchupPeriodId])
 
   useEffect(() => {
+    let cur = parseInt(props.matchupPeriodId.substring(9));
+    let live = parseInt(props.liveMatchup.substring(9));
+    setProjected(cur > live ? 1 : 0);
     let leagueID = (props.leagueType === "league1" ? 1446375 : 1869404038);
     let scoringPeriod = props.matchupPeriodId.substring(9);
     console.log(scoringPeriod);
@@ -56,6 +59,7 @@ function Scoreboard(props) {
         });
         console.log(teams);
         let _matchupBody = [];
+        let projec = 1;
         result["schedule"].forEach((match) => {
           if (
             match["matchupPeriodId"].toString() === matchupPeriod.substring(9)
@@ -66,22 +70,23 @@ function Scoreboard(props) {
               home: {
                 name: home_team["name"],
                 logo: home_team["logo"],
-                score: match["home"]["adjustment"],
+                score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][1],
               },
               away: {
                 name: away_team["name"],
                 logo: away_team["logo"],
-                score: match["away"]["adjustment"],
+                score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][1],
               },
               id: match["id"],
             };
-            console.log(match_data);
+            console.log("safddf", projected);
             _matchupBody.push(
               <Match
                 home={match_data["home"]}
                 away={match_data["away"]}
                 id={match_data["id"]}
                 showBoxScore={showBoxScore}
+                projected={projected}
               ></Match>
             );
           }
@@ -91,7 +96,7 @@ function Scoreboard(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [matchupPeriod, props.leagueType]);
+  }, [matchupPeriod, props.leagueType, projected]);
 
   return (
     <div className="scoreboard">

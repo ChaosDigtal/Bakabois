@@ -14,6 +14,7 @@
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 10px;
 }
 
 .match .tools {
@@ -22,18 +23,22 @@
 }
 
 .match .team-info {
-    margin-top: 15px;
+    position: relative;
+    top: 50%;
+    transform: translate(0%, -50%);
     display: flex;
 }
 
 .match .home, .match .away {
     display: flex;
+    height: 50%;
     justify-content: space-between;
 }
 
 .match .team-name {
-    margin-top: 10px;
     margin-left: 10px;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 .match .box-score {
@@ -45,6 +50,9 @@
     float: right;
     font-size: 20px;
     font-weight: 600;
-    margin-top: 20px;
+    position: relative;
+    top: 50%;
+    transform: translate(0%, -50%);
+    text-align: center;
 }
 

@@ -9,6 +9,7 @@ import "./Dashboard.css";
 import logo from "../../assets/image/logo.png";
 import bkImage1 from "../../assets/image/image1.jpeg";
 import bkImage2 from "../../assets/image/image2.jpeg";
+import axios from "axios";
 
 
 function Dashboard() {
@@ -21,7 +22,20 @@ function Dashboard() {
   const [matchupPeriodId, setMatchupPeriodId] = useState("NFL WEEK 1");
   const [matchups, setMatchups] = useState([]);
   const [matchId, setMatchId] = useState(1);
+  const [liveMatchup, setLiveMatchup] = useState("NFL WEEK 1");
   const [value, setValue] = useState(0);
+
+  const getLiveMatchup = () => {
+    axios
+      .get("https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/1446375?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam", {})
+      .then((response) => {
+          let result = response["data"];
+          setLiveMatchup("NFL WEEK " + result["scoringPeriodId"]);
+          setMatchupPeriodId("NFL WEEK " + result["scoringPeriodId"]);
+      }).catch((error) => {
+        console.log(error);
+      })
+  }
 
   useEffect(() => {
     if (activeIndex === 2 && matchups.length === 0) {
@@ -29,6 +43,9 @@ function Dashboard() {
         matchups.push("NFL WEEK " + i);
       }
     }
+    if(activeIndex !== 3)
+      getLiveMatchup();
+    
   }, [activeIndex]);
 
   const tabLeagueTemplate = (options) => {
@@ -210,6 +227,7 @@ function Dashboard() {
                     leagueType="league1"
                     showBoxScore={showBoxScore}
                     matchupPeriodId={matchupPeriodId}
+                    liveMatchup={liveMatchup}
                   ></Scoreboard>
                 )}
               {(leagueTypeScoreboard === "League 2" ||
@@ -218,6 +236,7 @@ function Dashboard() {
                     leagueType="league2"
                     showBoxScore={showBoxScore}
                     matchupPeriodId={matchupPeriodId}
+                    liveMatchup={liveMatchup}
                   ></Scoreboard>
                 )}
             </div>
@@ -227,6 +246,7 @@ function Dashboard() {
               leagueID={leagueID}
               value={value}
               matchupPeriodId={matchupPeriodId.substring(9)}
+              liveMatchup={liveMatchup.substring(9)}
               matchId={matchId.toString()}
               showBoxScore={showBoxScores}
             ></BoxScores>
