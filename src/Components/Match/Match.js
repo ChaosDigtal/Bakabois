@@ -21,7 +21,7 @@ function Match(props) {
           </div>
           <div><div className="score">
             <div>{props.away.score}</div>
-            <div style={{"font-weight": "400", "font-size": "15px"}}>{props.projected ? "Projected Score" : "Actual Socre"}</div>
+            
           </div></div>
         </div>
         <div className="home">
@@ -35,7 +35,7 @@ function Match(props) {
           </div>
           <div><div className="score">
             <div>{props.home.score}</div>
-            <div style={{"font-weight": "400", "font-size": "15px"}}>{props.projected ? "Projected Score" : "Actual Socre"}</div>
+            
           </div></div>
         </div>
       </div>
