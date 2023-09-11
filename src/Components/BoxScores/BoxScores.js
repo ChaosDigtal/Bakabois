@@ -47,6 +47,10 @@ function BoxScores(props) {
         return url;
     };
 
+    const v = (data) => {
+        return parseFloat(data).toFixed(1);
+    }
+
     useEffect(() => {
         if (window.innerWidth <= 576 && matchs.length > 0)
             showBoxScore(matchs[value].leagueID, matchs[value].id)
@@ -119,6 +123,8 @@ function BoxScores(props) {
                             id: match["id"].toString(),
                             leagueID: 1446375,
                         };
+                        match_data.away.score = parseFloat(match_data.away.score).toFixed(1);
+                        match_data.home.score = parseFloat(match_data.home.score).toFixed(1);
                         if (
                             props.leagueID === 1446375 &&
                             match_data["id"] === props.matchId
@@ -140,6 +146,7 @@ function BoxScores(props) {
                                 let proj = 0.0;
                                 if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined)
                                     proj = match["away"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                fpts = v(fpts); avg = v(avg); proj = v(proj);
                                 if (projected === 0 && proj === 0.0)
                                     return;
                                 if (pos === 1) {
@@ -150,7 +157,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "QB",
                                             prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -163,7 +170,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "RB",
                                                 prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -178,7 +185,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "WR",
                                                 prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -193,7 +200,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "TE",
                                             prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -206,7 +213,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "K",
                                             prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -217,7 +224,7 @@ function BoxScores(props) {
                                         name: fullName,
                                         pos: "D/ST",
                                         prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                        proj: proj.toFixed(1),
+                                        proj: proj,
                                         avg: avg,
                                         fpts: fpts
                                     }
@@ -238,6 +245,7 @@ function BoxScores(props) {
                                 let proj = 0.0;
                                 if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined)
                                     proj = match["home"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                fpts = v(fpts); avg = v(avg); proj = v(proj);
                                 if (projected === 0 && proj === 0.0)
                                     return;
                                 if (pos === 1) {
@@ -248,7 +256,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "QB",
                                             prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -261,7 +269,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "RB",
                                                 prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -276,7 +284,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "WR",
                                                 prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -291,7 +299,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "TE",
                                             prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -304,7 +312,7 @@ function BoxScores(props) {
                                             name: fullName,
                                             pos: "K",
                                             prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                            proj: proj.toFixed(1),
+                                            proj: proj,
                                             avg: avg,
                                             fpts: fpts
                                         }
@@ -315,7 +323,7 @@ function BoxScores(props) {
                                         name: fullName,
                                         pos: "D/ST",
                                         prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                        proj: proj.toFixed(1),
+                                        proj: proj,
                                         avg: avg,
                                         fpts: fpts
                                     }
@@ -374,10 +382,10 @@ function BoxScores(props) {
 
                             setPlayerList(_playerList);
 
-                            match_data["away"]["proj"] = away_proj.toFixed(1);
-                            match_data["home"]["proj"] = home_proj.toFixed(1);
-                            match_data["away"]["avg"] = away_avg.toFixed(1);
-                            match_data["home"]["avg"] = home_avg.toFixed(1);
+                            match_data["away"]["proj"] = away_proj;
+                            match_data["home"]["proj"] = home_proj;
+                            match_data["away"]["avg"] = away_avg;
+                            match_data["home"]["avg"] = home_avg;
                             setCurrent(match_data);
                         }
                         _matchs.push(match_data);
@@ -463,6 +471,8 @@ function BoxScores(props) {
                                     id: match["id"].toString(),
                                     leagueID: 1869404038,
                                 };
+                                match_data.away.score = parseFloat(match_data.away.score).toFixed(1);
+                                match_data.home.score = parseFloat(match_data.home.score).toFixed(1);
                                 if (
                                     props.leagueID === 1869404038 &&
                                     match_data["id"] === props.matchId
@@ -484,6 +494,7 @@ function BoxScores(props) {
                                         let proj = 0.0;
                                         if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined)
                                             proj = match["away"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                        fpts = v(fpts); avg = v(avg); proj = v(proj);
                                         if (projected === 0 && proj === 0.0)
                                             return;
                                         if (pos === 1) {
@@ -494,7 +505,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "QB",
                                                     prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -507,7 +518,7 @@ function BoxScores(props) {
                                                         name: fullName,
                                                         pos: "RB",
                                                         prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                        proj: proj.toFixed(1),
+                                                        proj: proj,
                                                         avg: avg,
                                                         fpts: fpts
                                                     }
@@ -522,7 +533,7 @@ function BoxScores(props) {
                                                         name: fullName,
                                                         pos: "WR",
                                                         prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                        proj: proj.toFixed(1),
+                                                        proj: proj,
                                                         avg: avg,
                                                         fpts: fpts
                                                     }
@@ -537,7 +548,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "TE",
                                                     prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -550,7 +561,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "K",
                                                     prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -561,7 +572,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "D/ST",
                                                 prk: (away_team[id] === 0 ? "---" : away_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -582,6 +593,7 @@ function BoxScores(props) {
                                         let proj = 0.0;
                                         if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined)
                                             proj = match["home"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                        fpts = v(fpts); avg = v(avg); proj = v(proj);
                                         if (projected === 0 && proj === 0.0)
                                             return;
                                         if (pos === 1) {
@@ -592,7 +604,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "QB",
                                                     prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -605,7 +617,7 @@ function BoxScores(props) {
                                                         name: fullName,
                                                         pos: "RB",
                                                         prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                        proj: proj.toFixed(1),
+                                                        proj: proj,
                                                         avg: avg,
                                                         fpts: fpts
                                                     }
@@ -620,7 +632,7 @@ function BoxScores(props) {
                                                         name: fullName,
                                                         pos: "WR",
                                                         prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                        proj: proj.toFixed(1),
+                                                        proj: proj,
                                                         avg: avg,
                                                         fpts: fpts
                                                     }
@@ -635,7 +647,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "TE",
                                                     prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -648,7 +660,7 @@ function BoxScores(props) {
                                                     name: fullName,
                                                     pos: "K",
                                                     prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                    proj: proj.toFixed(1),
+                                                    proj: proj,
                                                     avg: avg,
                                                     fpts: fpts
                                                 }
@@ -659,7 +671,7 @@ function BoxScores(props) {
                                                 name: fullName,
                                                 pos: "D/ST",
                                                 prk: (home_team[id] === 0 ? "---" : home_team[id]),
-                                                proj: proj.toFixed(1),
+                                                proj: proj,
                                                 avg: avg,
                                                 fpts: fpts
                                             }
@@ -718,10 +730,10 @@ function BoxScores(props) {
 
                                     setPlayerList(_playerList);
 
-                                    match_data["away"]["proj"] = away_proj.toFixed(1);
-                                    match_data["home"]["proj"] = home_proj.toFixed(1);
-                                    match_data["away"]["avg"] = away_avg.toFixed(1);
-                                    match_data["home"]["avg"] = home_avg.toFixed(1);
+                                    match_data["away"]["proj"] = away_proj;
+                                    match_data["home"]["proj"] = home_proj;
+                                    match_data["away"]["avg"] = away_avg;
+                                    match_data["home"]["avg"] = home_avg;
                                     setCurrent(match_data);
                                 }
                                 _matchs.push(match_data);
@@ -729,8 +741,8 @@ function BoxScores(props) {
                         });
 
                         setMatchs(_matchs);
-                        if (_value > _matchs.length - 7)
-                            _value = _matchs.length - 7;
+                        if (_value > _matchs.length - numVisible)
+                            _value = _matchs.length - numVisible;
                         if (props.value === -1)
                             setValue(_value);
                     })
@@ -790,7 +802,7 @@ function BoxScores(props) {
                             </div>
                         </div>
                         <div className="score">
-                            <span>{match.away.score}</span>
+                            <span>{v(match.away.score)}</span>
                         </div>
                     </div>
                     <div className="home">
@@ -803,7 +815,7 @@ function BoxScores(props) {
                             </div>
                         </div>
                         <div className="score">
-                            <span>{match.home.score}</span>
+                            <span>{v(match.home.score)}</span>
                         </div>
                     </div>
                 </div>
@@ -818,7 +830,7 @@ function BoxScores(props) {
                     {record.away.name}
                 </div>
                 <div>
-                    <div className="text-middle">{record.away.score}</div>
+                    <div className="text-middle">{v(record.away.score)}</div>
                 </div>
             </div>
         )
@@ -828,7 +840,7 @@ function BoxScores(props) {
         return (
             <div className="flex justify-content-between">
                 <div>
-                    <div className="text-middle">{record.home.score}</div>
+                    <div className="text-middle">{v(record.home.score)}</div>
                 </div>
                 <div className="text-center">
                     {record.home.name}
@@ -871,9 +883,9 @@ function BoxScores(props) {
             <Row>
                 <Column colSpan={2} />
                 <Column footer="Total" colSpan={1} />
-                <Column footer={current === null ? "" : current.away.avg} colSpan={1} />
-                <Column footer={current === null ? "" : current.away.proj} colSpan={1} />
-                {projected === 0 && (<Column footer={current === null ? "" : current.away.score} colSpan={1} />)}
+                <Column footer={current === null ? "" : v(current.away.avg)} colSpan={1} />
+                <Column footer={current === null ? "" : v(current.away.proj)} colSpan={1} />
+                {projected === 0 && (<Column footer={current === null ? "" : v(current.away.score)} colSpan={1} />)}
             </Row>
         </ColumnGroup>
     );
@@ -891,9 +903,9 @@ function BoxScores(props) {
     const homeFooterGroup = (
         <ColumnGroup>
             <Row>
-                {projected === 0 && (<Column footer={current === null ? "" : current.home.score} colSpan={1} />)}
-                <Column footer={current === null ? "" : current.home.proj} colSpan={1} />
-                <Column footer={current === null ? "" : current.home.avg} colSpan={1} />
+                {projected === 0 && (<Column footer={current === null ? "" : v(current.home.score)} colSpan={1} />)}
+                <Column footer={current === null ? "" : v(current.home.proj)} colSpan={1} />
+                <Column footer={current === null ? "" : v(current.home.avg)} colSpan={1} />
                 <Column footer="Total" colSpan={1} />
                 <Column colSpan={2} />
             </Row>
@@ -943,7 +955,7 @@ function BoxScores(props) {
                             </div>
                             <div className="away-score">
                                 <div className="text-600 text-center">
-                                    {projected ? current.away.proj : current.away.score}
+                                    {projected ? v(current.away.proj) : v(current.away.score)}
                                 </div>
                                 <div className="text-400 text-base">
                                     {projected ? "Projected Score" : "Actual Score"}
@@ -953,7 +965,7 @@ function BoxScores(props) {
                         <div className="boxscores-home">
                             <div className="home-score">
                                 <div className="text-600 text-center">
-                                    {projected ? current.home.proj : current.home.score}
+                                    {projected ? v(current.home.proj) : v(current.home.score)}
                                 </div>
                                 <div className="text-400 text-base">
                                     {projected ? "Projected Score" : "Actual Score"}

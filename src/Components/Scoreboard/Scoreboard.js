@@ -79,6 +79,8 @@ function Scoreboard(props) {
               },
               id: match["id"],
             };
+            match_data.away.score = parseFloat(match_data.away.score).toFixed(1);
+            match_data.home.score = parseFloat(match_data.home.score).toFixed(1);
             console.log("safddf", projected);
             _matchupBody.push(
               <Match

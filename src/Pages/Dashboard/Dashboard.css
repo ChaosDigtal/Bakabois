@@ -194,6 +194,10 @@
     text-align: -webkit-center;
 }
 
+.p-datatable .p-datatable-tbody > tr > td {
+    height: 75px!important;
+}
+
 @media screen and (max-width: 400px) {
     .p-tabview .p-tabview-panels {
         padding-left: 10px!important;
