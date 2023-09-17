@@ -106,7 +106,7 @@ function BoxScores(props) {
                             home: {
                                 name: home_team["name"],
                                 logo: home_team["logo"],
-                                score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][1],
+                                score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][props.matchupPeriodId],
                                 div: (match["home"]["cumulativeScore"] === undefined ? "0-0-0" : (match["home"]["cumulativeScore"]["wins"] + "-" + match["home"]["cumulativeScore"]["losses"] + "-" + match["home"]["cumulativeScore"]["ties"])),
                                 manager: home_team["manager"],
                                 proj: 0.0
@@ -114,8 +114,8 @@ function BoxScores(props) {
                             away: {
                                 name: away_team["name"],
                                 logo: away_team["logo"],
-                                score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][1],
-                                div: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][1],
+                                score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][props.matchupPeriodId],
+                                div: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][props.matchupPeriodId],
                                 div: (match["home"]["cumulativeScore"] === undefined ? "0-0-0" : (match["home"]["cumulativeScore"]["wins"] + "-" + match["home"]["cumulativeScore"]["losses"] + "-" + match["home"]["cumulativeScore"]["ties"])),
                                 manager: away_team["manager"],
                                 proj: 0.0
@@ -455,7 +455,7 @@ function BoxScores(props) {
                                     home: {
                                         name: home_team["name"],
                                         logo: home_team["logo"],
-                                        score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][1],
+                                        score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][props.matchupPeriodId],
                                         div: home_div,
                                         manager: home_team["manager"],
                                         proj: 0.0
@@ -463,7 +463,7 @@ function BoxScores(props) {
                                     away: {
                                         name: away_team["name"],
                                         logo: away_team["logo"],
-                                        score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][1],
+                                        score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][props.matchupPeriodId],
                                         div: away_div,
                                         manager: away_team["manager"],
                                         proj: 0.0
