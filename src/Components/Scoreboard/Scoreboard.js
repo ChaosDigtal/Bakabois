@@ -18,6 +18,7 @@ function Scoreboard(props) {
   useEffect(() => {
     let cur = parseInt(props.matchupPeriodId.substring(9));
     let live = parseInt(props.liveMatchup.substring(9));
+    console.log("LIVE", live);
     setProjected(cur > live ? 1 : 0);
     let leagueID = (props.leagueType === "league1" ? 1446375 : 1869404038);
     let scoringPeriod = props.matchupPeriodId.substring(9);
@@ -70,12 +71,12 @@ function Scoreboard(props) {
               home: {
                 name: home_team["name"],
                 logo: home_team["logo"],
-                score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][1],
+                score: match["home"]["pointsByScoringPeriod"] === undefined ? match["home"]["adjustment"] : match["home"]["pointsByScoringPeriod"][match["matchupPeriodId"]],
               },
               away: {
                 name: away_team["name"],
                 logo: away_team["logo"],
-                score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][1],
+                score: match["away"]["pointsByScoringPeriod"] === undefined ? match["away"]["adjustment"] : match["away"]["pointsByScoringPeriod"][match["matchupPeriodId"]],
               },
               id: match["id"],
             };

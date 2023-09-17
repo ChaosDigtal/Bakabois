@@ -19,10 +19,10 @@ function Dashboard() {
   const [leagueTypeScoreboard, setLeagueTypeScoreboard] = useState("League 1");
   const [leagueTypeLeaderboard, setLeagueTypeLeaderboard] =
     useState("League 1");
-  const [matchupPeriodId, setMatchupPeriodId] = useState("NFL WEEK 1");
+  const [matchupPeriodId, setMatchupPeriodId] = useState("");
   const [matchups, setMatchups] = useState([]);
   const [matchId, setMatchId] = useState(1);
-  const [liveMatchup, setLiveMatchup] = useState("NFL WEEK 1");
+  const [liveMatchup, setLiveMatchup] = useState("");
   const [value, setValue] = useState(0);
 
   const getLiveMatchup = () => {
@@ -215,7 +215,7 @@ function Dashboard() {
                     value={matchupPeriodId}
                     onChange={(e) => setMatchupPeriodId(e.value)}
                     options={matchups}
-                    placeholder="NFL WEEK 1"
+                    placeholder={matchupPeriodId}
                     className="w-full"
                   />
                 </div>
