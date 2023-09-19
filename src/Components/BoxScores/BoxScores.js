@@ -22,7 +22,7 @@ function BoxScores(props) {
     const [awayPlayerList, setAwayPlayerList] = useState([]);
     const [homePlayerList, setHomePlayerList] = useState([]);
     const [compareList, setCompareList] = useState([]);
-    const [projected, setProjected] = useState(1);
+    const [projected, setProjected] = useState(-1);
 
     if (numVisible === -1) {
         if (window.innerWidth <= 576)
@@ -59,7 +59,7 @@ function BoxScores(props) {
     useEffect(() => {
         let cur = parseInt(props.matchupPeriodId);
         let live = parseInt(props.liveMatchup);
-        setProjected(cur > live ? 1 : 0);
+        if(projected === -1) setProjected(cur > live ? 1 : 0);
         setValue(props.value);
         var _matchs = [];
         var _leagueName = "";
@@ -102,6 +102,8 @@ function BoxScores(props) {
                     if (match["matchupPeriodId"].toString() === props.matchupPeriodId) {
                         let home_team = _teams[match["home"]["teamId"].toString()];
                         let away_team = _teams[match["away"]["teamId"].toString()];
+                        if(match["home"]["pointsByScoringPeriod"] === undefined)
+                            setProjected(1);
                         let match_data = {
                             home: {
                                 name: home_team["name"],
@@ -136,10 +138,12 @@ function BoxScores(props) {
                             let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
                             let pRB = [1, 2, 6], pWR = [3, 4, 6];
                             let array = away_team["roster"]["entries"];
-                            if (match["away"]["rosterForMatchupPeriod"] !== undefined)
+                            if (match["away"]["rosterForCurrentScoringPeriod"] != undefined && match["away"]["rosterForCurrentScoringPeriod"]["entries"].length)
+                                array = match["away"]["rosterForCurrentScoringPeriod"]["entries"];
+                            if (match["away"]["rosterForMatchupPeriod"] !== undefined && match["away"]["rosterForMatchupPeriod"]["entries"].length)
                                 array = match["away"]["rosterForMatchupPeriod"]["entries"];
                             //match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
-                            
+
                             array.forEach(function (player, i) {
                                 let id = player["playerPoolEntry"]["id"];
                                 let fullName = player["playerPoolEntry"]["player"]["fullName"];
@@ -148,15 +152,16 @@ function BoxScores(props) {
                                 let fpts = player["playerPoolEntry"]["appliedStatTotal"];
                                 let avg = away_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                 let proj = 0.0;
-                                if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined) {
                                     match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
-                                        if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                        if (element["playerPoolEntry"]["player"]["fullName"] === fullName)
                                             proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
                                     });
                                 }
                                 fpts = v(fpts); avg = v(avg); proj = v(proj);
-                                if (projected === 0 && proj === 0.0)
+                                if (projected === 1 && parseFloat(proj) === 0.0 && parseInt(player["playerPoolEntry"]["player"]["universeId"]) !== 1)
                                     return;
+                                console.log(fullName);
                                 if (pos === 1) {
                                     if (cQB === 0) {
                                         cQB = 1;
@@ -243,7 +248,9 @@ function BoxScores(props) {
                             let _homePlayerList = new Array(9);
                             cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
                             array = home_team["roster"]["entries"];
-                            if (match["home"]["rosterForMatchupPeriod"] !== undefined)
+                            if (match["home"]["rosterForCurrentScoringPeriod"] != undefined && match["home"]["rosterForCurrentScoringPeriod"]["entries"].length)
+                                array = match["home"]["rosterForCurrentScoringPeriod"]["entries"];
+                            if (match["home"]["rosterForMatchupPeriod"] !== undefined && match["home"]["rosterForMatchupPeriod"]["entries"].length)
                                 array = match["home"]["rosterForMatchupPeriod"]["entries"];
                             //match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
                             array.forEach(function (player, i) {
@@ -256,14 +263,14 @@ function BoxScores(props) {
 
                                 console.log(avg);
                                 let proj = 0.0;
-                                if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined) {
                                     match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
-                                        if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                        if (element["playerPoolEntry"]["player"]["fullName"] === fullName)
                                             proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
                                     });
                                 }
                                 fpts = v(fpts); avg = v(avg); proj = v(proj);
-                                if (projected === 0 && proj === 0.0)
+                                if (projected === 1 && parseFloat(proj) === 0.0 && parseInt(player["playerPoolEntry"]["player"]["universeId"]) !== 1)
                                     return;
                                 if (pos === 1) {
                                     if (cQB === 0) {
@@ -384,11 +391,11 @@ function BoxScores(props) {
                                     role: (i === 6 ? "FLEX" : _awayPlayerList[i]["pos"]),
                                     away: {
                                         name: _awayPlayerList[i]["name"],
-                                        score: projected ? _awayPlayerList[i]["proj"] : _awayPlayerList[i]["fpts"]
+                                        score: (projected === 1 ? _awayPlayerList[i]["proj"] : _awayPlayerList[i]["fpts"])
                                     },
                                     home: {
                                         name: _homePlayerList[i]["name"],
-                                        score: projected ? _homePlayerList[i]["proj"] : _homePlayerList[i]["fpts"]
+                                        score: (projected === 1 ? _homePlayerList[i]["proj"] : _homePlayerList[i]["fpts"])
                                     }
                                 })
                             }
@@ -405,10 +412,10 @@ function BoxScores(props) {
 
                             setPlayerList(_playerList);
 
-                            match_data["away"]["proj"] = away_proj;
-                            match_data["home"]["proj"] = home_proj;
-                            match_data["away"]["avg"] = away_avg;
-                            match_data["home"]["avg"] = home_avg;
+                            match_data["away"]["proj"] = away_proj.toFixed(1);
+                            match_data["home"]["proj"] = home_proj.toFixed(1);
+                            match_data["away"]["avg"] = away_avg.toFixed(1);
+                            match_data["home"]["avg"] = home_avg.toFixed(1);
                             setCurrent(match_data);
                         }
                         _matchs.push(match_data);
@@ -507,7 +514,9 @@ function BoxScores(props) {
                                     let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
                                     let pRB = [1, 2, 6], pWR = [3, 4, 6];
                                     let array = away_team["roster"]["entries"];
-                                    if (match["away"]["rosterForMatchupPeriod"] !== undefined)
+                                    if (match["away"]["rosterForCurrentScoringPeriod"] != undefined && match["away"]["rosterForCurrentScoringPeriod"]["entries"].length)
+                                        array = match["away"]["rosterForCurrentScoringPeriod"]["entries"];
+                                    if (match["away"]["rosterForMatchupPeriod"] !== undefined && match["away"]["rosterForMatchupPeriod"]["entries"].length)
                                         array = match["away"]["rosterForMatchupPeriod"]["entries"];
                                     //match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
                                     array.forEach(function (player, i) {
@@ -518,14 +527,14 @@ function BoxScores(props) {
                                         let fpts = player["playerPoolEntry"]["appliedStatTotal"];
                                         let avg = away_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                         let proj = 0.0;
-                                        if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                        if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined) {
                                             match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
-                                                if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                                if (element["playerPoolEntry"]["player"]["fullName"] === fullName)
                                                     proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
                                             });
                                         }
                                         fpts = v(fpts); avg = v(avg); proj = v(proj);
-                                        if (projected === 0 && proj === 0.0)
+                                        if (projected === 1 && parseFloat(proj) === 0.0 && parseInt(player["playerPoolEntry"]["player"]["universeId"]) !== 1)
                                             return;
                                         if (pos === 1) {
                                             if (cQB === 0) {
@@ -613,7 +622,9 @@ function BoxScores(props) {
                                     let _homePlayerList = new Array(9);
                                     cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
                                     array = home_team["roster"]["entries"];
-                                    if (match["home"]["rosterForMatchupPeriod"] !== undefined)
+                                    if (match["home"]["rosterForCurrentScoringPeriod"] != undefined && match["home"]["rosterForCurrentScoringPeriod"]["entries"].length)
+                                        array = match["home"]["rosterForCurrentScoringPeriod"]["entries"];
+                                    if (match["home"]["rosterForMatchupPeriod"] !== undefined && match["home"]["rosterForMatchupPeriod"]["entries"].length)
                                         array = match["home"]["rosterForMatchupPeriod"]["entries"];
                                     //match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
                                     array.forEach(function (player, i) {
@@ -624,14 +635,14 @@ function BoxScores(props) {
                                         let fpts = player["playerPoolEntry"]["appliedStatTotal"];
                                         let avg = home_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                         let proj = 0.0;
-                                        if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                        if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined) {
                                             match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
-                                                if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                                if (element["playerPoolEntry"]["player"]["fullName"] === fullName)
                                                     proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
                                             });
                                         }
                                         fpts = v(fpts); avg = v(avg); proj = v(proj);
-                                        if (projected === 0 && proj === 0.0)
+                                        if (projected === 1 && parseFloat(proj) === 0.0 && parseInt(player["playerPoolEntry"]["player"]["universeId"]) !== 1)
                                             return;
                                         if (pos === 1) {
                                             if (cQB === 0) {
@@ -771,10 +782,10 @@ function BoxScores(props) {
 
                                     setPlayerList(_playerList);
 
-                                    match_data["away"]["proj"] = away_proj;
-                                    match_data["home"]["proj"] = home_proj;
-                                    match_data["away"]["avg"] = away_avg;
-                                    match_data["home"]["avg"] = home_avg;
+                                    match_data["away"]["proj"] = away_proj.toFixed(1);
+                                    match_data["home"]["proj"] = home_proj.toFixed(1);
+                                    match_data["away"]["avg"] = away_avg.toFixed(1);
+                                    match_data["home"]["avg"] = home_avg.toFixed(1);
                                     setCurrent(match_data);
                                 }
                                 _matchs.push(match_data);

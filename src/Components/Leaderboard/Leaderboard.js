@@ -49,13 +49,13 @@ function Leaderboard(props) {
           if (managerName === "") managerName = "None";
           let teamName = team["name"] + " (" + managerName + ")";
           _standing.push({
-            rank: team["rankFinal"],
+            rank: team["playoffSeed"],
             name: team["name"],
             manager: managerName,
             team: teamName,
             logo: team["logo"],
             pf: team["record"]["overall"]["pointsFor"],
-            pa: team["record"]["overall"]["pointsAgainst"],
+            pa: parseFloat(team["record"]["overall"]["pointsAgainst"]).toFixed(1),
             pct: team["record"]["overall"]["percentage"],
             gb: team["record"]["overall"]["gamesBack"],
             div:
@@ -112,13 +112,13 @@ function Leaderboard(props) {
           if (managerName === "") managerName = "None";
           let teamName = team["name"] + " (" + managerName + ")";
           _standing.push({
-            rank: team["rankFinal"],
+            rank: team["playoffSeed"],
             name: team["name"],
             manager: managerName,
             team: teamName,
             logo: team["logo"],
             pf: team["record"]["overall"]["pointsFor"],
-            pa: team["record"]["overall"]["pointsAgainst"],
+            pa: parseFloat(team["record"]["overall"]["pointsAgainst"]).toFixed(1),
             pct: team["record"]["overall"]["percentage"],
             gb: team["record"]["overall"]["gamesBack"],
             div:
@@ -167,7 +167,7 @@ function Leaderboard(props) {
               if (managerName === "") managerName = "None";
               let teamName = team["name"] + " (" + managerName + ")";
               _standing.push({
-                rank: team["rankFinal"],
+                rank: team["playoffSeed"],
                 name: team["name"],
                 manager: managerName,
                 team: teamName,
