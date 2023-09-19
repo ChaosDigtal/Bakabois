@@ -135,17 +135,25 @@ function BoxScores(props) {
                             let _awayPlayerList = new Array(9);
                             let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
                             let pRB = [1, 2, 6], pWR = [3, 4, 6];
+                            let array = away_team["roster"]["entries"];
+                            if (match["away"]["rosterForMatchupPeriod"] !== undefined)
+                                array = match["away"]["rosterForMatchupPeriod"]["entries"];
                             //match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
-                            away_team["roster"]["entries"].forEach(function (player, i) {
+                            
+                            array.forEach(function (player, i) {
                                 let id = player["playerPoolEntry"]["id"];
                                 let fullName = player["playerPoolEntry"]["player"]["fullName"];
                                 let lastName = player["playerPoolEntry"]["player"]["lastName"];
                                 let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
                                 let fpts = player["playerPoolEntry"]["appliedStatTotal"];
-                                let avg = player["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
+                                let avg = away_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                 let proj = 0.0;
-                                if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined)
-                                    proj = match["away"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                    match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
+                                        if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                            proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                    });
+                                }
                                 fpts = v(fpts); avg = v(avg); proj = v(proj);
                                 if (projected === 0 && proj === 0.0)
                                     return;
@@ -234,17 +242,26 @@ function BoxScores(props) {
 
                             let _homePlayerList = new Array(9);
                             cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
+                            array = home_team["roster"]["entries"];
+                            if (match["home"]["rosterForMatchupPeriod"] !== undefined)
+                                array = match["home"]["rosterForMatchupPeriod"]["entries"];
                             //match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
-                            home_team["roster"]["entries"].forEach(function (player, i) {
+                            array.forEach(function (player, i) {
                                 let id = player["playerPoolEntry"]["id"];
                                 let fullName = player["playerPoolEntry"]["player"]["fullName"];
                                 let lastName = player["playerPoolEntry"]["player"]["lastName"];
                                 let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
                                 let fpts = player["playerPoolEntry"]["appliedStatTotal"];
-                                let avg = player["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
+                                let avg = home_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
+
+                                console.log(avg);
                                 let proj = 0.0;
-                                if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined)
-                                    proj = match["home"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                    match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
+                                        if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                            proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                    });
+                                }
                                 fpts = v(fpts); avg = v(avg); proj = v(proj);
                                 if (projected === 0 && proj === 0.0)
                                     return;
@@ -337,12 +354,18 @@ function BoxScores(props) {
                             let away_avg = 0.0;
                             let home_avg = 0.0;
 
+                            away_proj = home_proj = 0.0;
+
                             for (var i = 0; i < _awayPlayerList.length; ++i) {
-                                away_fpts += _awayPlayerList[i]["fpts"];
-                                home_fpts += _homePlayerList[i]["fpts"];
-                                away_avg += _awayPlayerList[i]["avg"];
-                                home_avg += _homePlayerList[i]["avg"];
+                                away_fpts += parseFloat(_awayPlayerList[i]["fpts"]);
+                                home_fpts += parseFloat(_homePlayerList[i]["fpts"]);
+                                away_avg += parseFloat(_awayPlayerList[i]["avg"]);
+                                home_avg += parseFloat(_homePlayerList[i]["avg"]);
+                                away_proj += parseFloat(_awayPlayerList[i]["proj"]);
+                                home_proj += parseFloat(_homePlayerList[i]["proj"]);
                             }
+
+
 
                             let _compareList = [];
                             let _playerList = [];
@@ -483,17 +506,24 @@ function BoxScores(props) {
                                     let _awayPlayerList = new Array(9);
                                     let cQB = 0, cRB = 0, cWR = 0, cTE = 0, cK = 0;
                                     let pRB = [1, 2, 6], pWR = [3, 4, 6];
+                                    let array = away_team["roster"]["entries"];
+                                    if (match["away"]["rosterForMatchupPeriod"] !== undefined)
+                                        array = match["away"]["rosterForMatchupPeriod"]["entries"];
                                     //match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
-                                    away_team["roster"]["entries"].forEach(function (player, i) {
+                                    array.forEach(function (player, i) {
                                         let id = player["playerPoolEntry"]["id"];
                                         let fullName = player["playerPoolEntry"]["player"]["fullName"];
                                         let lastName = player["playerPoolEntry"]["player"]["lastName"];
                                         let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
                                         let fpts = player["playerPoolEntry"]["appliedStatTotal"];
-                                        let avg = player["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
+                                        let avg = away_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                         let proj = 0.0;
-                                        if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined)
-                                            proj = match["away"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                        if (match["away"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                            match["away"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
+                                                if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                                    proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                            });
+                                        }
                                         fpts = v(fpts); avg = v(avg); proj = v(proj);
                                         if (projected === 0 && proj === 0.0)
                                             return;
@@ -582,17 +612,24 @@ function BoxScores(props) {
 
                                     let _homePlayerList = new Array(9);
                                     cQB = 0; cRB = 0; cWR = 0; cTE = 0; cK = 0;
+                                    array = home_team["roster"]["entries"];
+                                    if (match["home"]["rosterForMatchupPeriod"] !== undefined)
+                                        array = match["home"]["rosterForMatchupPeriod"]["entries"];
                                     //match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(player => {
-                                    home_team["roster"]["entries"].forEach(function (player, i) {
+                                    array.forEach(function (player, i) {
                                         let id = player["playerPoolEntry"]["id"];
                                         let fullName = player["playerPoolEntry"]["player"]["fullName"];
                                         let lastName = player["playerPoolEntry"]["player"]["lastName"];
                                         let pos = player["playerPoolEntry"]["player"]["defaultPositionId"];
                                         let fpts = player["playerPoolEntry"]["appliedStatTotal"];
-                                        let avg = player["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
+                                        let avg = home_team["roster"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedAverage"];
                                         let proj = 0.0;
-                                        if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined)
-                                            proj = match["home"]["rosterForCurrentScoringPeriod"]["entries"][i]["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                        if (match["home"]["rosterForCurrentScoringPeriod"] !== undefined){
+                                            match["home"]["rosterForCurrentScoringPeriod"]["entries"].forEach(element => {
+                                                if(element["playerPoolEntry"]["player"]["fullName"] === fullName)
+                                                    proj = element["playerPoolEntry"]["player"]["stats"][0]["appliedTotal"];
+                                            });
+                                        }
                                         fpts = v(fpts); avg = v(avg); proj = v(proj);
                                         if (projected === 0 && proj === 0.0)
                                             return;
@@ -685,11 +722,15 @@ function BoxScores(props) {
                                     let away_avg = 0.0;
                                     let home_avg = 0.0;
 
+                                    away_proj = home_proj = 0.0;
+
                                     for (var i = 0; i < _awayPlayerList.length; ++i) {
-                                        away_fpts += _awayPlayerList[i]["fpts"];
-                                        home_fpts += _homePlayerList[i]["fpts"];
-                                        away_avg += _awayPlayerList[i]["avg"];
-                                        home_avg += _homePlayerList[i]["avg"];
+                                        away_fpts += parseFloat(_awayPlayerList[i]["fpts"]);
+                                        home_fpts += parseFloat(_homePlayerList[i]["fpts"]);
+                                        away_avg += parseFloat(_awayPlayerList[i]["avg"]);
+                                        home_avg += parseFloat(_homePlayerList[i]["avg"]);
+                                        away_proj += parseFloat(_awayPlayerList[i]["proj"]);
+                                        home_proj += parseFloat(_homePlayerList[i]["proj"]);
                                     }
 
                                     let _compareList = [];
@@ -883,7 +924,6 @@ function BoxScores(props) {
             <Row>
                 <Column colSpan={2} />
                 <Column footer="Total" colSpan={1} />
-                <Column footer={current === null ? "" : v(current.away.avg)} colSpan={1} />
                 <Column footer={current === null ? "" : v(current.away.proj)} colSpan={1} />
                 {projected === 0 && (<Column footer={current === null ? "" : v(current.away.score)} colSpan={1} />)}
             </Row>
@@ -905,7 +945,6 @@ function BoxScores(props) {
             <Row>
                 {projected === 0 && (<Column footer={current === null ? "" : v(current.home.score)} colSpan={1} />)}
                 <Column footer={current === null ? "" : v(current.home.proj)} colSpan={1} />
-                <Column footer={current === null ? "" : v(current.home.avg)} colSpan={1} />
                 <Column footer="Total" colSpan={1} />
                 <Column colSpan={2} />
             </Row>
@@ -991,7 +1030,6 @@ function BoxScores(props) {
                                 <Column field="name" header="Name" />
                                 <Column field="pos" header="Pos" />
                                 <Column field="prk" header="PRK" />
-                                <Column field="avg" header="AVG" />
                                 <Column field="proj" header="PROJ" />
                                 {projected === 0 && <Column field="fpts" header="FPTS" />}
                             </DataTable>
@@ -1007,7 +1045,6 @@ function BoxScores(props) {
                             <DataTable value={homePlayerList} stripedRows footerColumnGroup={homeFooterGroup}>
                                 {projected === 0 && <Column field="fpts" header="FPTS" />}
                                 <Column field="proj" header="PROJ" />
-                                <Column field="avg" header="AVG" />
                                 <Column field="prk" header="PRK" />
                                 <Column field="pos" header="Pos" />
                                 <Column field="name" header="Name" />
