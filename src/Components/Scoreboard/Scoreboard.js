@@ -9,7 +9,7 @@ function Scoreboard(props) {
   const [leagueName, setLeagueName] = useState("Bakabois");
   const [matchupPeriod, setMatchupPeriod] = useState("NFL WEEK 1");
   const [matchupBody, setMatchupBody] = useState([]);
-  const [projected, setProjected] = useState(1);
+  const [projected, setProjected] = useState(-1);
 
   useEffect(() => {
     setMatchupPeriod(props.matchupPeriodId);
@@ -19,7 +19,7 @@ function Scoreboard(props) {
     let cur = parseInt(props.matchupPeriodId.substring(9));
     let live = parseInt(props.liveMatchup.substring(9));
     console.log("LIVE", live);
-    setProjected(cur > live ? 1 : 0);
+    if (projected === -1) setProjected(cur > live ? 1 : 0);
     let leagueID = (props.leagueType === "league1" ? 1446375 : 1869404038);
     let scoringPeriod = props.matchupPeriodId.substring(9);
     console.log(scoringPeriod);
@@ -67,6 +67,8 @@ function Scoreboard(props) {
           ) {
             let home_team = teams[match["home"]["teamId"].toString()];
             let away_team = teams[match["away"]["teamId"].toString()];
+            if (match["home"]["pointsByScoringPeriod"] === undefined)
+              setProjected(1);
             let match_data = {
               home: {
                 name: home_team["name"],
